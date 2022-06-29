@@ -1,5 +1,17 @@
 # theKnow
 
+## Project Description: 
+
+“The Know” (Name undecided) aims to keep consumers in the know about the products they’re buying, enabling them to make educated and responsible decisions with as much information as possible. For any product on the website, there will be ratings (developed from existing information and research) to quantify the health and sustainability of a product as well as the expensiveness of the product compared to similar products. Users will also be able to leave reviews and ratings on the product, and the average rating as well as their individual reviews will be available for other users to view, upvote, and comment on. The website asks users to make an account, where they’ll be able to keep track of their favorite products, get recommendations about products they may enjoy, and keep track of their ratings and reviews. Users will also be able to take a photo of a product label/enter some information to generate ratings and add to the list of products available on the site. Users will also be able to scan the label to search up the product. 
+
+## Project Features:  
+- User authentication, leaving ratings and reviews under products
+- Searching up a product 
+- Get ratings on products (health, expensiveness, sustainability) 
+- Get recommendations on products they’ve enjoyed and previous purchases
+- Scan the label to search up the product
+
+
 ## User Stories
 
 As _someone_ I want to do _something_ in order to _something else_
