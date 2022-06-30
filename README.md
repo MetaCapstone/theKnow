@@ -27,6 +27,16 @@ As _someone_ I want to do _something_ in order to _something else_
 9. As a consumer, I want to make sure the food I'm eating has no animal products so that I can adhere me diet best to my values. 
 10. As a consumer, I want to have an easy way to view information about products that allows me to do less research for the same information.
 
+## Endpoints
+| HTTP Verb | Name             | Description                             | User stories         |
+|-----------|------------------|-----------------------------------------|----------------------|
+| POST      | user/product id  | liked product by user                   | 1,2,3,5,6,7,8,9,10   |
+| DELETE    | user/product id  | remove like from product                | 1,2,3,5,6,7,8,9,10   |
+| GET       | products         | display products                        | 1,2,3,4,5,6,7,8,9,10 |
+| POST      | products/user id | new products added by users             | 10                   |
+| PUT       | user/id          | update user profile                     | 1,2,3,4,5,6,7,8,9,10 |
+| PUT       | rating/user id   | putting a rating associated with a user | 4                    |
+
 ## Pages/Screens on the app
 
 
