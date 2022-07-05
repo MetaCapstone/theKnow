@@ -37,6 +37,27 @@ As _someone_ I want to do _something_ in order to _something else_
 | PUT       | user/id          | update user profile                     | 1,2,3,4,5,6,7,8,9,10 |
 | PUT       | rating/user id   | putting a rating associated with a user | 4                    |
 
+## Data Model
+
+#### Product:
+
+| Column Name | Type    | Description                               |
+|-------------|---------|-------------------------------------------|
+| id          | integer | primary key                               |
+| name        | string  | name of product                           |
+| description | string  | description of shoe's appearance          |
+| photo_url   | text    | URL to photo of product                   |
+| nutrient    | object  | the nutrients associated with the product |
+
+#### User:
+
+| Column Name    | Type             | Description                      |
+|----------------|------------------|----------------------------------|
+| liked_products | array of integer | products each user likes (by id) |
+| username       | string           | username                         |
+| password       | string           | password                         |
+| user_info      | object           | information about the user       |
+
 ## Pages/Screens on the app
 
 
