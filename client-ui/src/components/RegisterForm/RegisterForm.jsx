@@ -11,16 +11,18 @@ export default function RegisterForm({ handleLogin }) {
         event.preventDefault();
 
         const register = async () => {
+            setIsFetching(true)
             try {
                 console.log(`${config.API_BASE_URL}/register`)
                 const res = await axios.post(`${config.API_BASE_URL}/register`, {
                     "username" : username.current.value,
                     "password" : password.current.value
                     })
-                handleLogin(res.data.user)    
+                handleLogin(res.data.user)
             } catch (err) {
                 alert("Sign up failed: " + err.response.data.loginMessage);
             }
+            setIsFetching(false)
         }
         register()
     }
@@ -37,6 +39,6 @@ export default function RegisterForm({ handleLogin }) {
                 <input type="password" ref={password} placeholder="Password"></input>
             </label>
             <button type="submit">Register</button>
-        </form>        
+        </form>
     )
 }

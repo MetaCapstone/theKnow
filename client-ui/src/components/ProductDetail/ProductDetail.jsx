@@ -1,52 +1,69 @@
 import * as React from "react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
-import NotFound from "../NotFound/NotFound";
-import ProductView from "../ProductView/ProductView";
+import ReactLoading from "react-loading";
 import axios from "axios"
 import "./ProductDetail.css"
+import Loading from "../Loading/Loading.jsx"
 
 export default function ProductDetail(props) {
     const params = useParams();
     const [productState, setProductState] = useState({})
+    let string = ""
 
-    // figure out the quantity to show for the productId
-    // empty string with a 0 quantity or shows quantity
-    function findQuantity(productId) {
-        let findIndex = -1
-        props.shoppingCart.forEach((value, i) => {
-        if(value.itemId === productId) { findIndex = i}
-        })
-        return (findIndex === -1 || props.shoppingCart[findIndex].quantity === 0)  ? "" : props.shoppingCart[findIndex].quantity
+    // Get link for grabbing specific product info based on FDCId: const params = useParams();
+
+   // getting data for the specific product that has been clicked on
+   let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    async function getData() {
+
+        let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${params.productId}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
+        { headers: {
+          'Authorization': `api_key=${access_token}`,
+        }
+
+        }).catch((err) => console.log(err))
+        if (response) {
+            console.log("HERE!!", response)
+            console.log(props.isFetching)
+            setProductState(response.data)
+        }
+
     }
-
-    // getting data for the specific product that has been clicked on
-    // async function getData() {
-    //     props.setIsFetching(true)
-    //     let response = await axios.get(`https://codepath-store-api.herokuapp.com/store/${params.productId}`).catch((err) => props.setError(err))
-    //     if (response)
-    //         setProductState(response.data.product)
-    //       props.setIsFetching(false)
-    // }
     React.useEffect(()=>{
+        props.setIsFetching(true)
         getData()
+        props.setIsFetching(false)
+        //string = json_tree(productState.labelNutrients)
       },[])
-    if (props.error != "") {
-      return (
-        <NotFound/>
-      )
-    }
+
+    // function json_tree(data) {
+    //   console.log("data", data)
+    //   var json = "";
+    //   for (var element in data) {
+    //     json = json + "\n" + element + ":" + data[element].value;
+    //     //console.log("element:", element)
+    //     //console.log("data of element", data[element].value)
+    //   }
+    //   // data?.forEach(element => {
+    //   //     console.log("element:", element)
+    //   //     //console.log("data[i]:", data[i])
+    //   //     json = json + "<li>" + element.value;
+    //   //     json = json + "</li>";
+    //   // })
+    //   return json;
+    // }
+
     return (
-      <div className="product-detail">
-        {props.isFetching ? <h1>Loading...</h1>: 
-        (productState===undefined) ? <NotFound error={props.error} /> : 
-        <ProductView product={productState} 
-        productId={productState.id} 
-        quantity={findQuantity(productState.id)}
-        handleRemoveItemFromCart={props.handleRemoveItemFromCart} 
-        handleAddItemToCart={props.handleAddItemToCart} 
-        shoppingCart={props.shoppingCart}
-        />}
-      </div>
+      <div>
+      {props.isFetching ? <><h1>Loading</h1><ReactLoading type={"bars"} color={"Black"} /></>:
+        (productState===undefined) ? <h1>Not found!</h1> : //<NotFound error={props.error} /> :
+        <div className="product-detail">
+        <h1>{productState.description}</h1>
+        <h5>{productState.brandOwner}</h5></div>}
+        </div>
     )
   }
+
+        {/* <p>{document.getElementsByClassName("product-detail").innerHTML +=
+      string}</p></>} */}

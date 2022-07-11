@@ -8,7 +8,7 @@ import { useState } from "react"
 
 // const AboutUs = () => {
 //     const [selected, setSelected] = useState('');
-  
+
 //   const showSelectedOption = () => {
 //     switch(selected) {
 //       case 'details':
@@ -19,32 +19,32 @@ import { useState } from "react"
 //         return  <ProfileQualifications />;
 //       default:
 //         return '';
-  
+
 //     }
 //   }
-  
+
 //   return (
 //      <Button onClick={() => setSelected('details')}>Personal Details</Button>
 //      <Button onClick={() => setSelected('bio')}>Bio</Button>
 //      <Button onClick={() => setSelected('qualif')}>Qualifications</Button>
-  
+
 //      Container className={classes.container}>
-//         {showSelectedOption()} 
+//         {showSelectedOption()}
 //      </Container>
 //     );
 //   };
 
-export default function LoggedOutView({isLoggedIn, handleLogin}) {
+export default function LoggedOutView({user, isLoggedIn, handleLogin, isFetching, setIsFetching}) {
     const [selected, setSelected] = useState('logIn');
 
     const showSelectedOption = () => {
         switch(selected) {
             case 'signUp':
-            return  <RegisterForm handleLogin={handleLogin} />;
+            return  <RegisterForm setIsFetching={setIsFetching} isFetching={isFetching} handleLogin={handleLogin} />;
             case 'logIn':
-            return   <LoginForm handleLogin={handleLogin} />;
+            return   <LoginForm setIsFetching={setIsFetching} isFetching={isFetching} user={user} handleLogin={handleLogin} />;
             default:
-            return <LoginForm handleLogin={handleLogin} />;
+            return <LoginForm setIsFetching={setIsFetching} isFetching={isFetching} user = {user} handleLogin={handleLogin} />;
         }
     }
     return (
