@@ -1,14 +1,19 @@
 import axios from "axios";
 import * as React from "react"
 import { Link } from "react-router-dom"
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import "./ProductCard.css";
 
 export default function ProductCard(props) {
     let display = "";
-    const [add, setAdd] = useState(true)
+    let productsLiked = new Set(props.likedProducts)
+    let val = productsLiked.has(parseInt(props.product.fdcId))
+    const [add, setAdd] = useState(val)
 
 
+    useEffect(() => {
+      setAdd(productsLiked.has(parseInt(props.product.fdcId)))
+  }, [productsLiked])
 //     //protein energy energy_kcal fat sodium fiber carbohydrates sugars saturated_fat
 
 //     // labels:
@@ -22,7 +27,7 @@ export default function ProductCard(props) {
 
     async function handleAdd() {
       try {
-        setAdd(false)
+        setAdd(true)
         const res = await axios.post(`http://localhost:3001/add_products`, {
           "user" : props.user,
           "productId" : props.product.fdcId
@@ -34,7 +39,7 @@ export default function ProductCard(props) {
 
     async function handleRemove() {
       try {
-        setAdd(true)
+        setAdd(false)
         const res = await axios.post(`http://localhost:3001/remove_products`, {
           "user" : props.user,
           "productId" : props.product.fdcId
@@ -52,6 +57,7 @@ export default function ProductCard(props) {
     return (
       <div className="product-card">
         <div className="product-name">
+          <p>{add ? "Liked!" : ""} </p>
            <h1>{props.product.lowercaseDescription}</h1>
         </div>
         <div className="media">
@@ -59,7 +65,7 @@ export default function ProductCard(props) {
               <p>img here</p>
             </Link>
             {display}
-            <button onClick={() => (add ? handleAdd() : handleRemove())}>{add ?
+            <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
             <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>
             {/* <button onClick={handleRemove}>Remove from Liked</button> */}
         </div>

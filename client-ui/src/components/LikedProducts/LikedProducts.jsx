@@ -14,11 +14,9 @@ export default function LikedProducts({user, setIsFetching, isFetching}) {
         console.log(user)
         const res = await axios.get(`http://localhost:3001/products/${user.user.objectId}`)
         setIsFetching(false)
-        console.log(res.data.posts)
         setData(res.data.posts)
-        console.log("DATA:" , res.data.posts)
     }
-    useEffect( () => {
+    useEffect(() => {
         viewProducts()
     }, [])
 

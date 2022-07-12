@@ -7,9 +7,22 @@ import { useEffect } from "react";
 
 export default function ProductGrid(props) {
     const [searchValue, setSearchValue] = useState('');
+    const [data, setData] = useState([])
     const inputEl = useRef(null);
 
-
+    async function viewProducts() {
+        props.setIsFetching(true)
+        if (props.user.user) {
+            const res = await axios.get(`http://localhost:3001/products/${props.user.user.objectId}`)
+            props.setIsFetching(false)
+            setData(res.data.posts)
+            console.log("DATA" , res.data.posts)
+        }
+    }
+    useEffect( () => {
+        viewProducts()
+        console.log("RES DATA", data)
+    }, [])
 
     return (
         <><div className="Card">
@@ -29,7 +42,7 @@ export default function ProductGrid(props) {
             <div className={"product-grid"}>
                 {
                     props.products.map((product, idx) => {
-                        return <ProductCard user={props.user} key={idx} product={product}></ProductCard>
+                        return <ProductCard user={props.user} key={idx} product={product} likedProducts={data}></ProductCard>
                         // return <p> {product.name_translations.en}</p>
                     })}
             </div>
