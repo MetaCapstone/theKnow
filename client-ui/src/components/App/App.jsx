@@ -65,14 +65,12 @@ function App() {
         const response = await axios.get(url, {
         }).catch((err) => {console.log(err); setIsFetching(false)})
         setIsFetching(false)
-        console.log(response.data.foods)
 
         setSelectedProducts(response.data.foods)
     }
 
     useEffect(()=>{
       fetchData()
-      console.log("PRODUCTS:", products)
     },[])
 
   const handleLogout = () => {
@@ -81,15 +79,12 @@ function App() {
   }
 
   const handleLogin = (sessionToken) => {
-    console.log(sessionToken)
     localStorage.setItem("session_token", sessionToken.sessionToken)
     setUser(sessionToken)
-    console.log("HERE IN LOGIN")
     setIsLoggedIn(true)
   }
 
   let isEmpty = Object.keys(user).length == 0
-  console.log("APP IS FETCHING: " , isFetching)
   // if (isFetching) {
   //   console.log("HERE LOGGING")
   //   return (
@@ -102,7 +97,7 @@ function App() {
         <Routes>
           <Route path="/users/login" element={<LoggedOutView user={user} isLoggedIn={isEmpty} handleLogin={handleLogin} setIsFetching={setIsFetching} isFetching={isFetching}/>} />
           <Route path="/" element={<ProductGrid user={user} products={products} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
-          <Route path="/product/:productId" element={<ProductDetail setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
+          <Route path="/product/:productId" element={<ProductDetail user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
 
         </Routes>
       </BrowserRouter>

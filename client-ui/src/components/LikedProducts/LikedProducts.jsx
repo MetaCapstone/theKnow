@@ -16,6 +16,7 @@ export default function LikedProducts({user, setIsFetching, isFetching}) {
         setIsFetching(false)
         console.log(res.data.posts)
         setData(res.data.posts)
+        console.log("DATA:" , res.data.posts)
     }
     useEffect( () => {
         viewProducts()

@@ -23,7 +23,7 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
                 handleLogin(res.data)
             } catch (err) {
                 console.log(err)
-                //alert("Sign in failed: " + err.response.data.error);
+                alert("Sign in failed: " + err.response.data.error);
 
             }
             setIsFetching(false)

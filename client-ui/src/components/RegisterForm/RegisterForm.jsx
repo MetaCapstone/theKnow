@@ -11,7 +11,6 @@ export default function RegisterForm({ handleLogin }) {
         event.preventDefault();
 
         const register = async () => {
-            setIsFetching(true)
             try {
                 console.log(`${config.API_BASE_URL}/register`)
                 const res = await axios.post(`${config.API_BASE_URL}/register`, {
@@ -22,7 +21,6 @@ export default function RegisterForm({ handleLogin }) {
             } catch (err) {
                 alert("Sign up failed: " + err.response.data.loginMessage);
             }
-            setIsFetching(false)
         }
         register()
     }

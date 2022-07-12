@@ -74,6 +74,8 @@ app.post('/logout', async (req, res) => {
 //  id = dfnekg
 // })
 
+// conquered difficult questions - message
+
 app.post('/add_products', async (req, res) => {
   try {
 
@@ -144,7 +146,65 @@ app.get('/products/:userId', async (req, res) => {
       return element.attributes.productId
   })
     console.log(product_ids)
+    console.log(response)
     res.send({"posts" : product_ids})
+
+  } catch (error) {
+    res.status(400)
+    res.send({"error" : error })
+  }
+})
+
+app.post('/ratings', (req, res) => {
+
+  try {
+    var Ratings = Parse.Object.extend("Ratings");
+    const ratings = new Ratings();
+    console.log(ratings)
+    ratings.set({
+      "Review" : req.body.reviews,
+      "Rating" : req.body.rating,
+      "UserId": req.body.user.user.objectId,
+      "ProductId": req.body.productId
+    })
+
+    ratings.save()
+    console.log("SECOND")
+} catch (error) {
+  res.status(400)
+  res.send({"error" : error })
+}
+})
+
+app.get('/ratings/:productId', async (req, res) => {
+  try {
+    const {productId} = req.params
+    console.log(productId)
+    function postsMatching() {
+      var Ratings = Parse.Object.extend("Ratings");
+      var query = new Parse.Query(Ratings);
+      query.equalTo("ProductId", parseInt(productId));
+      return query.find();
+    }
+    function userName(userId) {
+      var User = Parse.Object.extend("User");
+      var query = new Parse.Query(User);
+      query.equalTo("objectId", userId);
+      return query.find();
+    }
+    const response = await postsMatching()
+    // username, rating, review
+    let objToReturn = {}
+    const reviews = await Promise.all(response.map(async (element) => {
+
+      let resp = await userName(element.attributes.UserId)
+      //console.log(element.attributes)
+      return {"user" : resp[0].attributes.username,
+      "rating" : element.attributes.Rating,
+      "review" : element.attributes.Review
+    }
+    }))
+  res.send({"posts" : reviews})
 
   } catch (error) {
     res.status(400)
