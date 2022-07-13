@@ -95,8 +95,8 @@ export default function ProductDetail(props) {
         </div>
         <div className="allRatings">
           <h1>Ratings!</h1>
-          {ratings.map((element) => {
-            return <><h2>{element.user}</h2> <p>{element.rating}</p><p>{element.review}</p></>
+          {ratings.map((element, idx) => {
+            return <><h2 key={idx}>{element.user}</h2> <p>{element.rating}</p><p>{element.review}</p></>
           })}
         </div>
       </>

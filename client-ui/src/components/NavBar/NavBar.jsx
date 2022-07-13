@@ -10,7 +10,6 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
     const [selected, setSelected] = useState("");
 
     const showSelectedOption = () => {
-        console.log("SELECTED", selected)
         switch(selected) {
             case 'show':
             return  <LikedProducts setIsFetching={setIsFetching} isFetching={isFetching} user={user}/>;
