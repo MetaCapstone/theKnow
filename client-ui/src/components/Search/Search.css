@@ -46,9 +46,21 @@
   .search-grid {
     display:grid;
     grid-gap: 30px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-top:20px;
   }
+
+
+@media screen and (max-width: 1000px){
+    #movie-grid{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width: 800px){
+    #movie-grid{
+        grid-template-columns: 1fr;
+    }
+}
 
   #myDropdown {
       padding: 50px;

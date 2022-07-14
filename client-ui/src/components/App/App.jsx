@@ -32,16 +32,15 @@ function App() {
 
     async function loadMorePages() {
         if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-            console.log("SCROLLING")
             page = page + 1
             let page_url = url + `&pageNumber=${page}` //`?page%5Bnumber%5D=${page}`
-            setIsFetching(true)
+            //setIsFetching(true)
             const response = await axios.get(page_url, {
             headers: {
                 'Authorization': `api_key=${access_token}`,
             }
             }).catch((err) => console.log(err))
-            setIsFetching(false)
+            //setIsFetching(false)
             // let temp = [...products]
 
             setSelectedProducts(products => [...products, ...response.data.foods])
@@ -53,7 +52,6 @@ function App() {
 
     useEffect(() => {
         window.addEventListener('scroll', loadMorePages)
-        console.log("scroll")
         return () => window.removeEventListener('scroll', loadMorePages)
     }, [])
 
@@ -61,16 +59,15 @@ function App() {
     // fetches data from api to display
     let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
     async function fetchData() {
-        setIsFetching(true)
         const response = await axios.get(url, {
-        }).catch((err) => {console.log(err); setIsFetching(false)})
-        setIsFetching(false)
-
+        }).catch((err) => {console.log(err)})
         setSelectedProducts(response.data.foods)
     }
 
     useEffect(()=>{
+      setIsFetching(true)
       fetchData()
+      setIsFetching(false)
     },[])
 
   const handleLogout = () => {
@@ -85,12 +82,11 @@ function App() {
   }
 
   let isEmpty = Object.keys(user).length == 0
-  // if (isFetching) {
-  //   console.log("HERE LOGGING")
-  //   return (
-  //     <Loading/>
-  //   )
-  // } else {
+  if (isFetching) {
+    return (
+      <Loading/>
+    )
+  } else {
     return (
       <BrowserRouter>
       <NavBar setIsFetching={setIsFetching} isFetching={isFetching} user={user} handleLogout={handleLogout}/>
@@ -98,12 +94,11 @@ function App() {
           <Route path="/users/login" element={<LoggedOutView user={user} isLoggedIn={isEmpty} handleLogin={handleLogin} setIsFetching={setIsFetching} isFetching={isFetching}/>} />
           <Route path="/" element={<ProductGrid user={user} products={products} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
           <Route path="/product/:productId" element={<ProductDetail user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
-
         </Routes>
       </BrowserRouter>
     )
   }
-//}
+}
 
 
 export default App

@@ -13,7 +13,6 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
         event.preventDefault();
 
         const login = async () => {
-          console.log(user)
           setIsFetching(true)
             try {
                 const res = await axios.post(`${config.API_BASE_URL}/login`, {
@@ -26,9 +25,9 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
                 alert("Sign in failed: " + err.response.data.error);
 
             }
-            setIsFetching(false)
         }
         login()
+        setIsFetching(false)
     }
 
     return (

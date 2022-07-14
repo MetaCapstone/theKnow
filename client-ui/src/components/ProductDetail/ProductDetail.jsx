@@ -10,6 +10,7 @@ export default function ProductDetail(props) {
     const params = useParams();
     const [productState, setProductState] = useState({})
     const [ratings, setRatings] = useState([])
+    const [isFetched, setIsFetched] = useState(false)
     let string = ""
 
     // Get link for grabbing specific product info based on FDCId: const params = useParams();
@@ -17,25 +18,28 @@ export default function ProductDetail(props) {
    // getting data for the specific product that has been clicked on
    let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
     async function getData() {
+      setIsFetched(true)
+      console.log("HERE")
         let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${params.productId}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
         { headers: {
           'Authorization': `api_key=${access_token}`,
         }
-        }).catch((err) => console.log(err))
+        }).catch((err) => console.logs(err))
         if (response) {
             setProductState(response.data)
+            console.log("loaded data")
         }
-
+        setIsFetched(false)
     }
+
+
     React.useEffect(()=>{
-        props.setIsFetching(true)
         getData()
         async function getAvg() {
           let resp = await getAvgRatings()
           setRatings(resp)
         }
         getAvg()
-        props.setIsFetching(false)
       },[])
 
 
@@ -63,42 +67,45 @@ export default function ProductDetail(props) {
           console.log(err)
       }
     }
-    return (
-      <>
-      <div>
-      {props.isFetching ? <><h1>Loading</h1><ReactLoading type={"bars"} color={"Black"} /></>:
-        (productState===undefined) ? <h1>Not found!</h1> :
-        <div className="product-detail">
-        <h1>{productState.description}</h1>
-        <h5>{productState.brandOwner}</h5></div>}
-        </div>
-        <div className="rate">
-          <input type="radio" id="star5" name="rate" value="5" />
-          <label htmlFor="star5" title="text">5 stars</label>
-          <input type="radio" id="star4" name="rate" value="4" />
-          <label htmlFor="star4" title="text">4 stars</label>
-          <input type="radio" id="star3" name="rate" value="3" />
-          <label htmlFor="star3" title="text">3 stars</label>
-          <input type="radio" id="star2" name="rate" value="2" />
-          <label htmlFor="star2" title="text">2 stars</label>
-          <input type="radio" id="star1" name="rate" value="1" />
-          <label htmlFor="star1" title="text">1 star</label>
-        </div>
-        <div className="review">
-          <h2>Review!</h2>
-          <input id="review" type="text" />
-        </div>
-        <div id="sub" className="submit">
-          <button onClick={() => {submitInfo(); document.getElementById("sub").innerHTML += "<h1>Thank you for your review!</h1>";
-        document.getElementById("review").value = "";
-        document.querySelector('input[name="rate"]:checked').checked = false;}}>Submit!</button>
-        </div>
-        <div className="allRatings">
-          <h1>Ratings!</h1>
-          {ratings.map((element, idx) => {
-            return <><h2 key={idx}>{element.user}</h2> <p>{element.rating}</p><p>{element.review}</p></>
-          })}
-        </div>
-      </>
-    )
+    if (isFetched || productState == {}) {
+      return <Loading/>
+    } else {
+      return (
+        <>
+        <div>
+        {(productState===undefined) ? <h1>Not found!</h1> :
+          <div className="product-detail">
+          <h1>{productState.description}</h1>
+          <h5>{productState.brandOwner}</h5></div>}
+          </div>
+          <div className="rate">
+            <input type="radio" id="star5" name="rate" value="5" />
+            <label htmlFor="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label htmlFor="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label htmlFor="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label htmlFor="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label htmlFor="star1" title="text">1 star</label>
+          </div>
+          <div className="review">
+            <h2>Review!</h2>
+            <input id="review" type="text" />
+          </div>
+          <div id="sub" className="submit">
+            <button onClick={() => {submitInfo(); document.getElementById("sub").innerHTML += "<h1>Thank you for your review!</h1>";
+          document.getElementById("review").value = "";
+          document.querySelector('input[name="rate"]:checked').checked = false;}}>Submit!</button>
+          </div>
+          <div className="allRatings">
+            <h1>Ratings!</h1>
+            {ratings.map((element, idx) => {
+              return <div key={idx}><h2>{element.user}</h2> <p>{element.rating}</p><p>{element.review}</p></div>
+            })}
+          </div>
+        </>
+      )
+    }
   }

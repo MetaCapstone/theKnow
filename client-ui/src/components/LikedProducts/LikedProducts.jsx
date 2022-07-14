@@ -1,31 +1,60 @@
 import {useEffect, useState} from "react"
 import axios from "axios"
 import {Link} from "react-router-dom"
-import "./LikedProducts"
+import "./LikedProducts.css"
+import ProductCard from "../ProductCard/ProductCard"
+import React from "react"
+import ReactLoading from "react-loading"
 
 export default function LikedProducts({user, setIsFetching, isFetching}) {
 
-    console.log("HERE IN LIKED PRODUCTS")
-
+    const [isFetched, setIsFetched] = useState(false)
     const [data, setData] = useState([])
+    const [product, setProductState] = useState([])
 
     async function viewProducts() {
-        setIsFetching(true)
-        console.log(user)
+        //setIsFetching(true)
         const res = await axios.get(`http://localhost:3001/products/${user.user.objectId}`)
-        setIsFetching(false)
+        //setIsFetching(false)
         setData(res.data.posts)
+        res.data.posts.forEach(element => {
+            getData(element)
+        })
     }
     useEffect(() => {
         viewProducts()
+        setProductState([])
     }, [])
 
-    return (
-        <div>
-        {data.map((element) => {
-            return <Link to={`/product/${element}`}></Link>
-        })}
-        <h1>LIKED PRODUCTS</h1>
-        </div>
-    )
+    let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    async function getData(token) {
+        setIsFetched(true)
+          let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${token}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
+          { headers: {
+            'Authorization': `api_key=${access_token}`,
+          }
+          }).catch((err) => console.logs(err))
+          if (response) {
+              setProductState((prevState) => [...prevState, response.data])
+          }
+          setIsFetched(false)
+      }
+
+      if (isFetched) {
+        return (<><h1>Loading</h1>
+        <ReactLoading type={"bars"} color={"Black"} /></>)
+      } else {
+        return (
+            <>
+            <div className="title">
+                <h1>LIKED PRODUCTS</h1>
+            </div>
+            <div className="products">
+            {product.map((element, idx) => {
+                return <ProductCard user={user} key={idx} product={element} setProducts={setData} likedProducts={data}></ProductCard>
+            })}
+            </div>
+            </>
+        )
+    }
 }
