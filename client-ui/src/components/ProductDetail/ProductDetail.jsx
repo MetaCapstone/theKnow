@@ -6,6 +6,7 @@ import axios from "axios"
 import "./ProductDetail.css"
 import Loading from "../Loading/Loading.jsx"
 import HealthRating from "../HealthRating/HealthRating";
+import {Rating} from "@mui/material"
 
 export default function ProductDetail(props) {
     const params = useParams();
@@ -27,19 +28,28 @@ export default function ProductDetail(props) {
         }).catch((err) => console.log(err))
         if (response) {
             setProductState(response.data)
-            console.log("loaded data"), response.data
         }
         setIsFetched(false)
     }
 
 
     React.useEffect(()=>{
-        getData()
-        async function getAvg() {
-          let resp = await getAvgRatings()
-          setRatings(resp)
+      async function responses() {
+        let response = await getRatingExists()
+          if (response.data == undefined) {
+            setProductState({description: response.title, brandOwner: response.company, value:response.healthRating})
+          } else {
+            getData()
+            async function getAvg() {
+              let resp = await getAvgRatings()
+              setRatings(resp)
+            }
+            getAvg()
+          }
         }
-        getAvg()
+
+      responses()
+
       },[])
 
 
@@ -59,6 +69,26 @@ export default function ProductDetail(props) {
       }
     }
 
+    async function getRatingExists() {
+      try {
+        const res = await axios.get(`http://localhost:3001/rating_add/${params.productId}`)
+
+        return res.data.posts
+      } catch (err) {
+          console.log(err)
+      }
+    }
+
+    async function addRating(health) {
+      const res = await axios.post(`http://localhost:3001/rating_add`, {
+              "productId" : parseInt(params.productId),
+              "healthRating" : health,
+              "title" : productState.description,
+              "company" : productState.brandOwner
+      })
+    }
+
+
     async function getAvgRatings() {
       try {
         const res = await axios.get(`http://localhost:3001/ratings/${params.productId}`)
@@ -67,6 +97,9 @@ export default function ProductDetail(props) {
           console.log(err)
       }
     }
+
+    // <Rating value={makeRatingProduct()} readOnly/>
+
     if (isFetched || productState == {}) {
       return <Loading/>
     } else {
@@ -77,7 +110,7 @@ export default function ProductDetail(props) {
           <div className="product-detail">
           <h1>{productState.description}</h1>
           <h5>{productState.brandOwner}</h5></div>}
-          {(productState == undefined) ? <p>health rating not found</p> : <HealthRating product={productState}/>}
+          {(productState.value == undefined) ? <HealthRating product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
           </div>
           <div className="rate">
             <input type="radio" id="star5" name="rate" value="5" />

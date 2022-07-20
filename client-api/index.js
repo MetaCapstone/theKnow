@@ -129,12 +129,70 @@ app.post('/remove_products', async (req, res) => {
   }
 })
 
+app.post('/rating_add', async (req, res) => {
+  try {
+
+    function postsMatching() {
+      var Product = Parse.Object.extend("Product");
+      var query = new Parse.Query(Product);
+      query.equalTo("productId", req.body.productId);
+      return query.count();
+    }
+    const response =  await postsMatching()
+    console.log("RESPONSE:", response)
+    if (response === 0) {
+
+      const Product = Parse.Object.extend("Product")
+      const product = new Product();
+      console.log(req.body.productId)
+      product.set({
+        "productId": req.body.productId,
+        "healthRating" : req.body.healthRating,
+        "title" : req.body.title,
+        "company" : req.body.company
+      })
+
+      product.save()
+  } if (response > 0) {
+    console.log("already added!")
+  }
+  res.send({message: "Success!"})
+  } catch (error) {
+    res.status(400)
+    res.send({"error" : error })
+  }
+})
+
+
+app.get('/rating_add/:productId', async (req, res) => {
+  try {
+
+    const {productId} = req.params
+    console.log("HERE")
+    function postsMatching() {
+      var Product = Parse.Object.extend("Product");
+      var query = new Parse.Query(Product);
+      query.equalTo("productId", parseInt(productId));
+      return query.find();
+    }
+    const response = await postsMatching()
+    if (response.length == 0) {
+      res.send({posts: {"data" : "none"}})
+    } else {
+      res.send({posts: {"title": response[0].attributes.title, "company":response[0].attributes.company, "healthRating": response[0].attributes.healthRating}})
+    }
+
+  } catch (error) {
+    res.status(400)
+    res.send({"error" : error })
+  }
+})
+
 //app.get necessary as well
 
 app.get('/products/:userId', async (req, res) => {
   try {
     const {userId} = req.params
-    console.log(userId)
     function postsMatching() {
       var Likes = Parse.Object.extend("Likes");
       var query = new Parse.Query(Likes);

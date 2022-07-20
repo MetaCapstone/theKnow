@@ -5,8 +5,8 @@ import {std, mean} from "mathjs"
 //import { Rating } from "react-simple-star-rating"
 import { Rating } from '@mui/material';
 
-export default function HealthRating({product}) {
-    const[searched, setSearched] = useState([])
+export default function HealthRating({product, getRatingExists, addRating}) {
+    const[ratings, setRating] = useState(0)
     const inputEl = useRef(null);
     const [open, setOpen] = useState(false)
     const [isFetched, setIsFetched] = useState(true)
@@ -46,7 +46,11 @@ export default function HealthRating({product}) {
         "fiber": [21, 38]
     }
 
-    function makeRatingProduct() {
+    useEffect(() => {
+        makeRatingProduct()
+    })
+
+    async function makeRatingProduct() {
         if (Object.keys(product).length > 0) {
             let protein = product?.foodNutrients.find(o => o.nutrient.name === 'Protein')?.amount;
             protein = (protein === 'undefined') ? 0 : protein;
@@ -141,16 +145,16 @@ export default function HealthRating({product}) {
 
             rating_avg = Math.round(rating_avg / total_weight)
 
-
-            return rating_avg
-
+            await addRating(rating_avg)
+            setRating(rating_avg)
+            console.log("SET RATING!")
         }
     }
 
     return (
         <div>
         <p>Health:</p>
-        <Rating value={makeRatingProduct()} readOnly/>
+        <Rating value={ratings} readOnly/>
         </div>
     )
 
