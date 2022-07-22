@@ -17,7 +17,6 @@ Parse.initialize("rHsJxlTuorkf0XCwgevAbPTMPBzutWozKgsPGQ9C", "e8iN7gYsSWrQvtE9Uh
 Parse.serverURL = "https://parseapi.back4app.com"
 
 
-
 app.post('/register', async (req, res) => {
   let user = new Parse.User(req.body)
 
@@ -206,6 +205,51 @@ app.get('/products/:userId', async (req, res) => {
     console.log(product_ids)
     console.log(response)
     res.send({"posts" : product_ids})
+
+  } catch (error) {
+    res.status(400)
+    res.send({"error" : error })
+  }
+})
+
+// For products a user likes, see if other users liked that product, generate list of other products the users liked, display them for the current user
+
+app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
+  try {
+    const {userId} = req.params
+    function postsMatching(userIdPassed) {
+      var Likes = Parse.Object.extend("Likes");
+      var query = new Parse.Query(Likes);
+      query.equalTo("userId", userIdPassed);
+      return query.find();
+    }
+    // products a user liked
+    const response =  await postsMatching(userId)
+    // generate list of products other users liked
+      // for each product the user liked, find if another user has also liked it
+      // get those users ids and find the products they enjoyed
+    function productsMatching(productId) {
+      var Likes = Parse.Object.extend("Likes");
+      var query = new Parse.Query(Likes);
+      query.equalTo("productId", productId).notEqualTo("userId", userId)
+      return query.find();
+    }
+    // for each user in this list, find the posts matching
+    product_ids = await Promise.all(response.map(async (element) => {
+      let resp = await productsMatching(element.attributes.productId)
+      console.log("RESPONSE", resp)
+      let res = await Promise.all(resp.map(async (el) => {
+        let responses = await postsMatching(el.attributes.userId)
+        let final = responses.map((element) => {
+          return element.attributes.productId
+        })
+        return final
+      }))
+      return res
+    }))
+    console.log("product_ids", product_ids)
+    res.send({"posts" : product_ids})
+
 
   } catch (error) {
     res.status(400)

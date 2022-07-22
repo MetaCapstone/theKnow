@@ -26,7 +26,7 @@ export default function LikedProducts({user, setIsFetching, isFetching}) {
         setProductState([])
     }, [])
 
-    let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"//"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
     async function getData(token) {
         setIsFetched(true)
           let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${token}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
