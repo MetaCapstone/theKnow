@@ -11,9 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "lodash": "^4.17.21",
     "morgan": "^1.10.0",
-    "parse": "^3.4.2"
+    "parse": "^3.4.2",
+    "python-shell": "^3.0.1",
+    "underscore": "^1.13.4"
   }
 }

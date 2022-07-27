@@ -2,7 +2,13 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const Parse = require('parse/node')
+const { spawn }=require('child_process')
+const events = require('events');
+const myEmitter = new events.EventEmitter();
+//var _ = require('lodash');
+var _ = require('underscore');
 const {PARSE_APP_ID, PARSE_JAVASCRIPT_KEY} = require('./config')
+const { disconnect } = require('process')
 
 
 const app = express()
@@ -152,6 +158,7 @@ app.post('/rating_add', async (req, res) => {
       })
 
       product.save()
+
   } if (response > 0) {
     console.log("already added!")
   }
@@ -162,6 +169,24 @@ app.post('/rating_add', async (req, res) => {
   }
 })
 
+
+app.post('/category', async (req, res)=> {
+  function categoryMatching() {
+    var Category = Parse.Object.extend("Category");
+    var query = new Parse.Query(Category);
+    query.equalTo("category", req.body.category);
+    return query.count();
+  }
+  const response =  await categoryMatching()
+  if (response === 0) {
+    const Category = Parse.Object.extend("Category")
+    const category = new Category();
+    category.set({
+      "category": req.body.category
+    })
+    category.save()
+  }
+})
 
 app.get('/rating_add/:productId', async (req, res) => {
   try {
@@ -212,8 +237,155 @@ app.get('/products/:userId', async (req, res) => {
   }
 })
 
-// For products a user likes, see if other users liked that product, generate list of other products the users liked, display them for the current user
+app.post('/categories', async (req, res) => {
+  try {
+    function postsMatching() {
+      const Category = Parse.Object.extend("Category")
+      const query = new Category();
+      query.equalTo("foodCategory", req.body.category);
+      return query.count();
+    }
+    const response =  await postsMatching()
+    console.log("RESPONSE:", response)
+    if (response === 0) {
 
+      const Category = Parse.Object.extend("Category")
+      const category = new Category();
+      category.set({
+        "foodCategory" : req.body.category
+      })
+      category.save()
+    } if (response > 0) {
+      console.log("already added!")
+    }
+    res.send({message: "Success!"})
+
+  } catch (error) {
+    res.status(400)
+    res.send({'error' : error})
+  }
+})
+
+app.get('/categories', async(req, res) => {
+  const Category = Parse.Object.extend("Category")
+  const query = new Category();
+  res.send({posts: query.find()});
+})
+
+app.get('/reccomendations/MLBased/:userId', async (req, res) => {
+  //try {
+    let total = []
+    const {userId} = req.params
+    async function postsMatching(userIdPassed) {
+      var Likes = Parse.Object.extend("Likes");
+      var query = new Parse.Query(Likes);
+      query.equalTo("userId", userIdPassed);
+      let resp =  await query.find();
+      return resp
+    }
+    // products a user liked
+    const response =  await postsMatching(userId)
+    // for every product
+
+    async function categories() {
+      var query = new Parse.Query("Category")
+      let resp = await query.find();
+      return resp
+    }
+    let resp = await categories()
+    let categorys = resp.map((element) => {
+      return element.attributes.category
+    })
+    let array = []
+    let results = /*await Promise.all(*/response.map(async (element) => {
+
+      function productsMatching(productId) {
+        var Products = Parse.Object.extend("Product");
+        var query = new Parse.Query(Products);
+        query.equalTo("productId", productId)
+        return query.find();
+      }
+
+      let resp = await productsMatching(element.attributes.productId)
+      if (resp.length != 0) {
+        let actual_category = resp[0].attributes.title //"plant based milk" // change based on based on product
+        console.log("ACTUAL CATEGORY", actual_category)
+
+        let options = ["similarity_model.py"]
+        options.push(actual_category)
+        options = options.concat(categorys)
+
+        // ^^ above this works
+
+        //let options = ['similarity_model.py', "plant based milk", "cereal", "plant based meat"]
+        const child_python= spawn('python3', options);
+        array = []
+        // async function runpythoncode() {
+        //   return new Promise(async (resolve) => {
+
+        child_python.stdout.on('data', (data)=> {
+          let parsed_data = JSON.parse(data)
+          console.log(`json :${parsed_data}`);
+
+          // categories.sort(function(a, b){
+          //   return parsed_data.indexOf(b) - parsed_data.indexOf(a);
+          // });
+
+          var result = parsed_data.reduce(function(result, field, index) {
+            result[categorys[index]] = field;
+            return result;
+          }, {})
+
+          var items = Object.keys(result).map(
+            (key) => { return [key, result[key]] });
+
+          items.sort(
+            (first, second) => { return second[1] - first[1] }
+          );
+
+          var keys = items.map(
+            (e) => { return e[0] });
+
+          keys = keys.slice(0,4)
+          array = [("ACTUAL:" + actual_category)]
+          keys.forEach((element) => {
+            array.push(element)
+          })
+          //console.log("ARRAY", array)
+          total.push(array)
+        })
+
+        child_python.stderr.on('data',(data)=>{
+          console.log(`stderr : ${data}`);
+        })
+
+        child_python.on('close',(code)=>{
+            console.log(`child process exited with code ${code}`)
+            myEmitter.emit('firstSpawn-finished');
+        })
+          //})
+        //}
+
+       // await runpythoncode();
+
+      }
+
+    })//)
+    let i = 0
+    myEmitter.on('firstSpawn-finished', () => {
+      //secondSpawn = spawn('echo', ['BYE!'])
+      //total.push(array)
+      //console.log("TOTAL", total)
+      console.log('spawned')
+      console.log("ARRAY2", total)
+      i = i + 1
+      if (i == 1) {
+        res.send({"posts": total})
+      }
+    })
+  })
+
+// For products a user likes, see if other users liked that product, generate list of other products the users liked, display them for the current user
 app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
   try {
     const {userId} = req.params
