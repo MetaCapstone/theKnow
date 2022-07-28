@@ -45,7 +45,7 @@ export default function UserRecommendations({user, likedProducts}) {
     // For products a user likes, see if other users liked that product, generate list of other products the users liked, display them for the current user
     return (<>
         <h1>Users also liked:</h1>
-        {productState.map((element, idx) => {
+        {productState.slice(0,10).map((element, idx) => {
             return <ProductCard user={user} key={idx} product={element} setProducts={setData} likedProducts={likedProducts}></ProductCard>
         })}
 

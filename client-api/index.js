@@ -275,17 +275,24 @@ app.get('/categories', async(req, res) => {
 app.get('/reccomendations/MLBased/:userId', async (req, res) => {
   //try {
     let total = []
+    // const {userId} = req.params
+    // async function postsMatching(userIdPassed) {
+    //   var Likes = Parse.Object.extend("Likes");
+    //   var query = new Parse.Query(Likes);
+    //   query.equalTo("userId", userIdPassed);
+    //   let resp =  await query.find();
+    //   return resp
+    // }
     const {userId} = req.params
-    async function postsMatching(userIdPassed) {
+    function postsMatching() {
       var Likes = Parse.Object.extend("Likes");
       var query = new Parse.Query(Likes);
-      query.equalTo("userId", userIdPassed);
-      let resp =  await query.find();
-      return resp
+      query.equalTo("userId", userId);
+      return query.find();
     }
+    const response =  await postsMatching()
+    myEmitter.setMaxListeners(response.length)
     // products a user liked
-    const response =  await postsMatching(userId)
-    // for every product
 
     async function categories() {
       var query = new Parse.Query("Category")
@@ -297,7 +304,8 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
       return element.attributes.category
     })
     let array = []
-    let results = /*await Promise.all(*/response.map(async (element) => {
+
+    response.forEach(async (element) => {
 
       function productsMatching(productId) {
         var Products = Parse.Object.extend("Product");
@@ -309,27 +317,20 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
       let resp = await productsMatching(element.attributes.productId)
       if (resp.length != 0) {
         let actual_category = resp[0].attributes.title //"plant based milk" // change based on based on product
-        console.log("ACTUAL CATEGORY", actual_category)
 
         let options = ["similarity_model.py"]
         options.push(actual_category)
         options = options.concat(categorys)
-
         // ^^ above this works
 
         //let options = ['similarity_model.py', "plant based milk", "cereal", "plant based meat"]
         const child_python= spawn('python3', options);
         array = []
-        // async function runpythoncode() {
-        //   return new Promise(async (resolve) => {
+
 
         child_python.stdout.on('data', (data)=> {
           let parsed_data = JSON.parse(data)
           console.log(`json :${parsed_data}`);
-
-          // categories.sort(function(a, b){
-          //   return parsed_data.indexOf(b) - parsed_data.indexOf(a);
-          // });
 
           var result = parsed_data.reduce(function(result, field, index) {
             result[categorys[index]] = field;
@@ -353,31 +354,23 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
           })
           //console.log("ARRAY", array)
           total.push(array)
-        })
 
-        child_python.stderr.on('data',(data)=>{
-          console.log(`stderr : ${data}`);
-        })
+          child_python.stderr.on('data',(data)=>{
+            console.log(`stderr : ${data}`);
+          })
 
-        child_python.on('close',(code)=>{
-            console.log(`child process exited with code ${code}`)
-            myEmitter.emit('firstSpawn-finished');
+          child_python.on('close',(code)=>{
+              console.log(`child process exited with code ${code}`)
+              myEmitter.emit('firstSpawn-finished');
+          })
         })
-          //})
-        //}
-
-       // await runpythoncode();
 
       }
 
     })//)
     let i = 0
     myEmitter.on('firstSpawn-finished', () => {
-      //secondSpawn = spawn('echo', ['BYE!'])
       //total.push(array)
-      //console.log("TOTAL", total)
-      console.log('spawned')
-      console.log("ARRAY2", total)
       i = i + 1
       if (i == 1) {
         res.send({"posts": total})
@@ -427,6 +420,10 @@ app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
     res.status(400)
     res.send({"error" : error })
   }
+})
+
+app.post('/remove_rating', (req, res) => {
+  //remove rating
 })
 
 app.post('/ratings', (req, res) => {
