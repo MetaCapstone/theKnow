@@ -7,17 +7,17 @@ import { useState } from 'react'
 export default function LoginForm({user, handleLogin, isFetching, setIsFetching}) {
     const username = React.createRef();
     const password = React.createRef();
-
-
     const handleSubmit = event => {
         event.preventDefault();
 
         const login = async () => {
           setIsFetching(true)
+
             try {
                 const res = await axios.post(`${config.API_BASE_URL}/login`, {
                     "username" : username.current.value,
                     "password" : password.current.value
+
                     })
                 handleLogin(res.data)
             } catch (err) {
@@ -29,7 +29,6 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
         login()
         setIsFetching(false)
     }
-
     return (
       <form onSubmit={handleSubmit}>
         <div className="title">Login</div>
@@ -45,3 +44,4 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
       </form>
     )
 }
+
