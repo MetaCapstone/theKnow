@@ -1,0 +1,15 @@
+#NavBar {
+    background-color: #515352;
+    padding: 10px;
+    display:block
+}
+
+#NavBar span {
+    font-weight: bold;
+}
+
+#NavBar a {
+    /* float: right; */
+    padding: 20px;
+    color: rgb(254, 254, 254);
+}
