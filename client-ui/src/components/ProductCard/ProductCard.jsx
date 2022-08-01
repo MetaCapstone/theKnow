@@ -1,51 +1,74 @@
+
+import axios from "axios";
 import * as React from "react"
 import { Link } from "react-router-dom"
+import { useState, useEffect} from "react";
+import "./ProductCard.css";
 
 export default function ProductCard(props) {
-    let display = ""; 
-    
-    //protein energy energy_kcal fat sodium fiber carbohydrates sugars saturated_fat
+    let display = "";
+    let productsLiked = new Set(props.likedProducts)
+    let val = productsLiked.has(parseInt(props.product.fdcId))
+    const [add, setAdd] = useState(val)
 
-    // labels: 
-    // name_translations
-    // per_day
-    // per_hundred
-    // per_portion
-    // unit
 
-    // if no english name exists, don't render the image
+    useEffect(() => {
+      setAdd(productsLiked.has(parseInt(props.product.fdcId)))
+  }, [productsLiked])
+//     //protein energy energy_kcal fat sodium fiber carbohydrates sugars saturated_fat
 
-    const handleAdd = event => {
-      event.preventDefault();
+//     // labels:
+//     // name_translations
+//     // per_day
+//     // per_hundred
+//     // per_portion
+//     // unit
 
-      const login = async () => {
-          try {
-              console.log("Adding to cart")
-              const res = await axios.post(`${config.API_BASE_URL}/`, {})                
-              //handleLogin(res.data.user)    
-          } catch (err) {
-              console.log(err)
-              alert("Failed");
-              
-          }
+//     // if no english name exists, don't render the image
+
+    async function handleAdd() {
+      try {
+        setAdd(true)
+        const res = await axios.post(`http://localhost:3001/add_products`, {
+          "user" : props.user,
+          "productId" : props.product.fdcId
+        })
+      } catch (err) {
+          alert("Failed to add to liked. Make sure you are logged in! ", err);
       }
-      login()
-  }
+    }
 
-    const imageSrc = props.product.name_translations.en ? props.product.images[0].large : null
-    console.log(props.product)
+    async function handleRemove() {
+      try {
+        setAdd(false)
+        const res = await axios.post(`http://localhost:3001/remove_products`, {
+          "user" : props.user,
+          "productId" : props.product.fdcId
+        })
+      } catch (err) {
+        alert("Failed to delete from liked. Make sure you are logged in! ", err);
+      }
+    }
+
+//     // const imageSrc = props.product.name_translations.en ? props.product.images[0].large : null
+//     console.log(props.product)
+
+// solid heart: <i class="fa-solid fa-heart"></i>
+// lined heart: <i class="fa-solid fa-heart-circle-xmark"></i>
     return (
       <div className="product-card">
         <div className="product-name">
-           <h1>{props.product.name_translations?.en}</h1>
+          <p>{add ? "Liked!" : ""} </p>
+           <h1>{props.product.lowercaseDescription}</h1>
         </div>
         <div className="media">
-            <Link to={"/product/" + props.product.id}>
-                <img src={imageSrc} />
+            <Link to={"/product/" + props.product.fdcId}>
+              <p>img here</p>
             </Link>
             {display}
-            {/* <button onClick={handleAdd}>Add to Cart</button>
-            <button onClikck={handleRemove}>Remove from Cart</button> */}
+            <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
+            <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>
+            {/* <button onClick={handleRemove}>Remove from Liked</button> */}
         </div>
       </div>
     )

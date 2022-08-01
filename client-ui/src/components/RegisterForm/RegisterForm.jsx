@@ -17,7 +17,7 @@ export default function RegisterForm({ handleLogin }) {
                     "username" : username.current.value,
                     "password" : password.current.value
                     })
-                handleLogin(res.data.user)    
+                handleLogin(res.data.user)
             } catch (err) {
                 alert("Sign up failed: " + err.response.data.loginMessage);
             }
@@ -37,6 +37,7 @@ export default function RegisterForm({ handleLogin }) {
                 <input type="password" ref={password} placeholder="Password"></input>
             </label>
             <button type="submit">Register</button>
-        </form>        
+        </form>
     )
 }
+
