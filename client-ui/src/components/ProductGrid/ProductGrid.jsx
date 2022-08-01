@@ -40,6 +40,7 @@ export default function ProductGrid(props) {
             </div>
         </div>
             <div className={"product-grid"}>
+
                 {
                     props.products.map((product, idx) => {
                         return <ProductCard user={props.user} key={idx} product={product} likedProducts={data}></ProductCard>
@@ -48,5 +49,6 @@ export default function ProductGrid(props) {
             </div>
         </>
     )
+
 
 }

@@ -3,6 +3,7 @@ import * as React from "react"
 import './App.css'
 import NavBar from '../NavBar/NavBar'
 import LoggedOutView from '../LoggedOutView/LoggedOutView'
+
 import axios from "axios"
 import {BrowserRouter, Route, Routes, Link} from "react-router-dom"
 import ProductGrid from '../ProductGrid/ProductGrid'
@@ -14,6 +15,7 @@ function App() {
   const [user, setUser] = useState({})
   const [isFetching, setIsFetching] = useState(false)
 
+
   // For every network request, add a custom header for the logged in user
   // The backend API can check the header for the user id
   //
@@ -21,11 +23,11 @@ function App() {
   // In production, you would add an access token instead of (or in addition to)
   // the user id, in order to authenticate the request
 
-
   const url = "https://api.nal.usda.gov/fdc/v1/foods/search?dataType=Branded&pageSize=30&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
   //let url = "https://api.nal.usda.gov/fdc/v1/foods/search?query=cake&?dataType=Branded&pageSize=20&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
   //let url = 'https://foodrepo.org/api/v3/products'
    // let access_token = "6f0b9fe7724f37e253a375f5152cbb34";
+
     const [products, setSelectedProducts] = useState([])
     //const [page, setPage] = useState(1)
     let page = 1
@@ -104,6 +106,7 @@ function App() {
     )
   }
 //}
+
 
 
 export default App
