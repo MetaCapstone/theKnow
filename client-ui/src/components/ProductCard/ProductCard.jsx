@@ -10,25 +10,14 @@ export default function ProductCard(props) {
     let productsLiked = new Set(props.likedProducts)
     let val = productsLiked.has(parseInt(props.product.fdcId))
     const [add, setAdd] = useState(val)
-
+    //let add = val
 
     useEffect(() => {
       setAdd(productsLiked.has(parseInt(props.product.fdcId)))
-  }, [productsLiked])
-//     //protein energy energy_kcal fat sodium fiber carbohydrates sugars saturated_fat
-
-//     // labels:
-//     // name_translations
-//     // per_day
-//     // per_hundred
-//     // per_portion
-//     // unit
-
-//     // if no english name exists, don't render the image
+    }, [props.likedProducts])
 
     async function handleAdd() {
       try {
-        setAdd(true)
         const res = await axios.post(`http://localhost:3001/add_products`, {
           "user" : props.user,
           "productId" : props.product.fdcId
@@ -36,11 +25,13 @@ export default function ProductCard(props) {
       } catch (err) {
           alert("Failed to add to liked. Make sure you are logged in! ", err);
       }
+      //await props.setProducts()
+      setAdd(prev => !prev)
+      // add = !add
     }
 
     async function handleRemove() {
       try {
-        setAdd(false)
         const res = await axios.post(`http://localhost:3001/remove_products`, {
           "user" : props.user,
           "productId" : props.product.fdcId
@@ -48,10 +39,10 @@ export default function ProductCard(props) {
       } catch (err) {
         alert("Failed to delete from liked. Make sure you are logged in! ", err);
       }
+      //await props.setProducts()
+      setAdd(prev => !prev)
+      props.setProducts(props.likedProducts)
     }
-
-//     // const imageSrc = props.product.name_translations.en ? props.product.images[0].large : null
-//     console.log(props.product)
 
 // solid heart: <i class="fa-solid fa-heart"></i>
 // lined heart: <i class="fa-solid fa-heart-circle-xmark"></i>
@@ -59,7 +50,7 @@ export default function ProductCard(props) {
       <div className="product-card">
         <div className="product-name">
           <p>{add ? "Liked!" : ""} </p>
-           <h1>{props.product.lowercaseDescription}</h1>
+           <h1>{(props.product.lowercaseDescription == undefined) ? props.product.description : props.product.lowercaseDescription}</h1>
         </div>
         <div className="media">
             <Link to={"/product/" + props.product.fdcId}>

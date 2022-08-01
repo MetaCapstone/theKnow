@@ -1,9 +1,41 @@
+.hidden {
+    display:none
+}
+.product-name p {
+    color:red;
+}
+.product-card{
+    background-color: white;
+    /* padding-bottom: 20px; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    margin: 10px
+}
+.button-style button {
+    background-color: #04AA6D;
+    color: #182520;
+    padding: 10px 24px;
+    cursor: pointer;
+    border: transparent;
+}
+.media {
+    size: 100px;
+    max-height: 100%;
+    max-width: auto;
+    padding-top: 10px;
+    /* width: 100%; */
+}
 .media button {
     padding: 0;
     border: none;
     background: none;
 }
-
-.product-name p {
-    color:red;
-}
+/* .media {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+} */

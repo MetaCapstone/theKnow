@@ -1,14 +1,135 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
 
-img {
+/* img {
     height: 300px;
     width: 300px;
-}
+} */
 .product-grid {
     display:grid;
     grid-gap: 30px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top:20px;
+}
+
+
+@media screen and (max-width: 1000px){
+  #movie-grid{
+      grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 800px){
+  #movie-grid{
+      grid-template-columns: 1fr;
+  }
+}
+
+.buttons button {
+    background-color: #04AA6D; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+  }
+  .buttons{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+  }
+
+  .buttons button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+
+  /* Clear floats (clearfix hack) */
+  .buttons:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  /* Add a background color on hover */
+  .buttons button:hover {
+    background-color: #3e8e41;
+  }
+
+:root {
+  --border-radius: 10px;
+}
+
+body, html {
+  background: #e2e9f4;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  padding-top: 50px;
+}
+
+.Icon {
+  min-width: 46px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  margin-right: 12px;
+  box-shadow:
+    -2px -2px 6px rgba(#fff, .6) 2px 2px 12px #c8d8e7;
+
+}
+
+label {
+  font-family: "Hind", sans-serif;
+  display: block;
+  color: #3c4b66;
+  margin-bottom: 12px;
+  background: linear-gradient(45deg, rgba(#6b7b8f, 1), #3c4b66);
+  -webkit-background-clip: text;
+}
+
+.InputContainer {
+  width: 100%;
+}
+
+input {
+  background-color: #e3edf7;
+  padding: 16px 32px;
+  border: none;
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  color: black; /*#a9b8c9;*/
+  -webkit-appearance: none;
+  transition: all 240ms ease-out;
+  width: 100%;
+
+};
+
+.InputContainer {
+  --top-shadow: inset 1px 1px 3px #c5d4e3, inset 2px 2px 6px #c5d4e3;
+  --bottom-shadow: inset -2px -2px 4px rgba(255,255,255, .7);
+
+  /* position: relative; */
+  border-radius: var(--border-radius);
+  overflow: hidden;
+
+}
+
+.hidden {
+    display:none
+}
+
+#norm {
+  padding-top: 100px
+}
+
+@import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
+.product-grid {
+    display:grid;
+    grid-gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-top:20px;
 }
 .buttons button {
@@ -22,18 +143,18 @@ img {
     display: grid;
     grid-template-columns: repeat(5,1fr);
   }
-  
+
   .buttons button:not(:last-child) {
     border-right: none; /* Prevent double borders */
   }
-  
+
   /* Clear floats (clearfix hack) */
   .buttons:after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   /* Add a background color on hover */
   .buttons button:hover {
     background-color: #3e8e41;
@@ -53,7 +174,7 @@ body, html {
   border-radius: var(--border-radius);
   background: linear-gradient(-67deg, rgba(#c8d8e7, .7), rgba(255,255,255,.8));
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     -2px -2px 6px rgba(#fff, .6),
     2px 2px 12px #c8d8e7;
   width: 380px;
@@ -77,7 +198,7 @@ body, html {
   justify-content: center;
   border-radius: var(--border-radius);
   margin-right: 12px;
-  box-shadow: 
+  box-shadow:
     -2px -2px 6px rgba(#fff, .6) 2px 2px 12px #c8d8e7;
 
 }
@@ -89,7 +210,7 @@ label {
   margin-bottom: 12px;
   background: linear-gradient(45deg, rgba(#6b7b8f, 1), #3c4b66);
   -webkit-background-clip: text;
-  /* -webkit-text-fill-color: transparent; */
+  -webkit-text-fill-color: transparent;
 }
 
 .InputContainer {
@@ -103,24 +224,20 @@ input {
   display: block;
   font-family: 'Orbitron', sans-serif;
   font-weight: 600;
-  color: black; /*#a9b8c9;*/
+  color: #a9b8c9;
 
   -webkit-appearance: none;
   transition: all 240ms ease-out;
   width: 100%;
 
 };
-  
+
 .InputContainer {
   --top-shadow: inset 1px 1px 3px #c5d4e3, inset 2px 2px 6px #c5d4e3;
   --bottom-shadow: inset -2px -2px 4px rgba(255,255,255, .7);
-  
+
   /* position: relative; */
   border-radius: var(--border-radius);
   overflow: hidden;
-  
-}
 
-.hidden {
-    display:none
 }

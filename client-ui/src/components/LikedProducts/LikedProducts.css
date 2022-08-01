@@ -1,4 +1,20 @@
-Link {
-    color: black;
-    z-index: 100
+.products {
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+
+@media screen and (max-width: 1000px){
+    #movie-grid{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width: 800px){
+    #movie-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+.title h1 {
+    color:red
 }

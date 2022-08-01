@@ -102,7 +102,7 @@ app.post('/add_products', async (req, res) => {
   } if (response > 0) {
     console.log("already added!")
   }
-
+  res.send("success")
   } catch (error) {
     res.status(400)
     res.send({"error" : error })
@@ -123,7 +123,7 @@ app.post('/remove_products', async (req, res) => {
     }, function(error) {
       console.log("error " + JSON.stringify(error));
     });
-
+    res.send("success")
   } catch (error) {
     res.status(400)
     res.send({"error": error})

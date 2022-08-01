@@ -10,19 +10,11 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
     const [selected, setSelected] = useState("");
 
     const showSelectedOption = () => {
-        console.log("SELECTED", selected)
         switch(selected) {
             case 'show':
             return  <LikedProducts setIsFetching={setIsFetching} isFetching={isFetching} user={user}/>;
             default:
-            return <>{isLoggedIn &&
-                <>
-                <a href="#" onClick={onClick}>Logout</a>
-                <p>Welcome, {user.user.username}</p>
-                </>
-            }
-            <Link to="/"><i className="fa-solid fa-house"></i></Link>
-            <Link to="users/login">Log in!</Link></>
+            return
         }
     }
     const onClick = async (event) => {
@@ -41,8 +33,16 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
 
     return (
         <div id="NavBar">
-            <button onClick={() => {selected === "show" ? setSelected("") : setSelected("show")}}>Liked Products</button>
-            {showSelectedOption()}
+            {/* <button onClick={() => {selected === "show" ? setSelected("") : setSelected("show")}}>Liked Products</button>
+            {showSelectedOption()} */}
+            <>{isLoggedIn &&
+                <>
+                <a href="#" onClick={onClick}>Logout</a>
+                <p>Welcome, {user.user.username}</p>
+                </>
+            }
+            <Link to="/"><i className="fa-solid fa-house"></i></Link>
+            <Link to="users/login">Log in!</Link></>
         </div>
     )
 }
