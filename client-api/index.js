@@ -212,6 +212,39 @@ app.get('/rating_add/:productId', async (req, res) => {
   }
 })
 
+app.get('/userRatings/:userId', async (req, res) => {
+  try {
+    const {userId} = req.params
+    function postsMatching() {
+      var Ratings = Parse.Object.extend("Ratings");
+      var query = new Parse.Query(Ratings);
+      query.equalTo("UserId", userId);
+      return query.find();
+    }
+    const response =  await postsMatching()
+    product_ids = response.map((element) => {
+      return element.attributes.productId
+    })
+    console.log("HERE")
+    const reviews = response.map((element) => {
+      //console.log(element.attributes)
+      console.log("OBJ ID", element)
+      return {
+        "rating" : element.attributes.Rating,
+        "review" : element.attributes.Review,
+        "productId" : element.attributes.ProductId,
+        "objectId" : element.id
+      }
+    })
+    res.send({"posts" : reviews})
+
+  } catch (error) {
+    res.status(400)
+    res.send({"error" : error })
+  }
+})
+
+
 //app.get necessary as well
 
 app.get('/products/:userId', async (req, res) => {
@@ -422,8 +455,73 @@ app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
   }
 })
 
-app.post('/remove_rating', (req, res) => {
-  //remove rating
+app.get('/userProfile/:userId', async (req, res) => {
+  try {
+    const {userId} = req.params
+    function userName() {
+      var UserInfo = Parse.Object.extend("UserInfo");
+      var query = new Parse.Query(UserInfo);
+      query.equalTo("userId", userId);
+      return query.first();
+    }
+
+    let resp = await userName()
+    console.log("ATTR", resp.attributes)
+    res.send({"posts": resp.attributes})
+
+  } catch (error) {
+    res.status(400)
+    res.send({"error": error})
+  }
+})
+
+app.post('/userProfile', async (req, res) => {
+  try {
+    // query for user id, grab first entry
+    Parse.User.enableUnsafeCurrentUser()
+    const query = new Parse.Query(Parse.Object.extend("UserInfo"))
+    query.equalTo("userId", req.body.userId)
+
+    async function postsMatching(query) {
+      query.equalTo("userId", req.body.userId);
+      return query.count();
+    }
+    let resp = await postsMatching(query)
+    let userInfo = []
+    if (resp > 0) {
+      userInfo = await query.first()
+    } else {
+      const UserInfo = Parse.Object.extend("UserInfo");
+      userInfo = new UserInfo();
+    }
+    userInfo.set({
+      "userId" : req.body.userId,
+      "firstName" : req.body.firstName,
+      "lastName" : req.body.lastName,
+      "height" : req.body.height,
+      "weight" : req.body.weight,
+      "gender" : req.body.gender
+    })
+    await userInfo.save()
+
+  } catch(error) {
+    res.status(400)
+    res.send({"error": error})
+  }
+})
+
+app.post('/remove_rating', async (req, res) => {
+  function postsMatching() {
+    const Ratings = Parse.Object.extend("Ratings")
+    const query = new Parse.Query(Ratings);
+    console.log("OBJECT ID", req.body.objectId);
+    query.equalTo("objectId", req.body.objectId);
+    return query.first();
+  }
+
+  let resp = await postsMatching()
+  resp.destroy()
+  res.send({"message": "success!"})
 })
 
 app.post('/ratings', (req, res) => {
