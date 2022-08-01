@@ -21,6 +21,7 @@ export default function ProductCard(props) {
           "user" : props.user,
           "productId" : props.product.fdcId
         })
+        await axios.post(`http://localhost:3001/categories`)
       } catch (err) {
           alert("Failed to add to liked. Make sure you are logged in! ", err);
       }

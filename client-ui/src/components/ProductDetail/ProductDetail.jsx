@@ -7,6 +7,7 @@ import "./ProductDetail.css"
 import Loading from "../Loading/Loading.jsx"
 import HealthRating from "../HealthRating/HealthRating";
 import {Rating} from "@mui/material"
+import Ratings from "../Ratings/Ratings";
 
 export default function ProductDetail(props) {
     const params = useParams();
@@ -28,6 +29,7 @@ export default function ProductDetail(props) {
         }).catch((err) => console.log(err))
         if (response) {
             setProductState(response.data)
+            addCategory(response.data.brandedFoodCategory)
         }
         setIsFetched(false)
     }
@@ -38,14 +40,13 @@ export default function ProductDetail(props) {
         let response = await getRatingExists()
           if (response.data == undefined) {
             setProductState({description: response.title, brandOwner: response.company, value:response.healthRating})
-          } else {
+          }
             getData()
             async function getAvg() {
               let resp = await getAvgRatings()
               setRatings(resp)
             }
             getAvg()
-          }
         }
 
       responses()
@@ -84,8 +85,18 @@ export default function ProductDetail(props) {
               "productId" : parseInt(params.productId),
               "healthRating" : health,
               "title" : productState.description,
-              "company" : productState.brandOwner
+              "company" : productState.brandOwner,
+              "category" : ratings.brandedFoodCategory
       })
+    }
+
+    async function addCategory(category) {
+        const res = await axios.post(`http://localhost:3001/category`, {
+                "productId" : parseInt(params.productId),
+                "title" : productState.description,
+                "company" : productState.brandOwner,
+                "category" : category
+        })
     }
 
 
@@ -133,12 +144,7 @@ export default function ProductDetail(props) {
           document.getElementById("review").value = "";
           document.querySelector('input[name="rate"]:checked').checked = false;}}>Submit!</button>
           </div>
-          <div className="allRatings">
-            <h1>Ratings!</h1>
-            {ratings.map((element, idx) => {
-              return <div key={idx}><h2>{element.user}</h2> <p>{element.rating}</p><p>{element.review}</p></div>
-            })}
-          </div>
+          <Ratings ratings={ratings}/>
         </>
       )
     }
