@@ -17,18 +17,20 @@ const port = process.env.PORT || 3001
 app.use(express.json())
 app.use(morgan("tiny"))
 app.use(cors())
+
 const MASTER_KEY = "EZzrcPqV2upIeItA2XKyLP16yIybXOVOimEfIFFf"
 
 Parse.initialize("rHsJxlTuorkf0XCwgevAbPTMPBzutWozKgsPGQ9C", "e8iN7gYsSWrQvtE9UhHM5QrRWjbzZkb3QDPqCL0Q", `${MASTER_KEY}`)
 Parse.serverURL = "https://parseapi.back4app.com"
-
 
 app.post('/register', async (req, res) => {
   let user = new Parse.User(req.body)
 
   try {
       await user.signUp()
+
       res.status(201)
+
       res.send({"user" : user})
   } catch (error) {
       res.status(400)
@@ -41,6 +43,7 @@ app.post('/login', async (req, res) => {
     const user = await Parse.User.logIn(req.body.username, req.body.password)
     console.log("in login", user)
     res.send({"user" : user, "sessionToken" : user.getSessionToken()})
+
   } catch (error) {
     res.status(400)
     res.send({"error" : error.message })
@@ -489,6 +492,7 @@ app.get('/', (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
   res.header("Access-Control-Allow-Header", "access-control-allow-methods");
+
   res.send(Parse.User.current())
 })
 

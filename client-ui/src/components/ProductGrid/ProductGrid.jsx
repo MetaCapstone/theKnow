@@ -63,6 +63,7 @@ export default function ProductGrid(props) {
             <Search likedProducts={data} user={props.user} products={props.products} setIsFetching={props.setIsFetching} isFetching={props.isFetching}/>
             {/* {scrapeImages()} */}
             <div className="product-grid">
+
                 {
                     props.products.map((product, idx) => {
                         return <ProductCard user={props.user} key={idx} product={product} setProducts={setData} likedProducts={data}></ProductCard>
@@ -71,5 +72,6 @@ export default function ProductGrid(props) {
             </div>
         </>
     )
+
 
 }

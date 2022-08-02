@@ -8,7 +8,6 @@ import { useState } from "react"
 
 // const AboutUs = () => {
 //     const [selected, setSelected] = useState('');
-
 //   const showSelectedOption = () => {
 //     switch(selected) {
 //       case 'details':
@@ -28,6 +27,7 @@ import { useState } from "react"
 //      <Button onClick={() => setSelected('bio')}>Bio</Button>
 //      <Button onClick={() => setSelected('qualif')}>Qualifications</Button>
 
+
 //      Container className={classes.container}>
 //         {showSelectedOption()}
 //      </Container>
@@ -35,6 +35,7 @@ import { useState } from "react"
 //   };
 
 export default function LoggedOutView({user, isLoggedIn, handleLogin, isFetching, setIsFetching}) {
+
     const [selected, setSelected] = useState('logIn');
 
     const showSelectedOption = () => {
@@ -55,3 +56,4 @@ export default function LoggedOutView({user, isLoggedIn, handleLogin, isFetching
         </div>
     )
 }
+
