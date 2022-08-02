@@ -202,16 +202,16 @@ body, html {
     -2px -2px 6px rgba(#fff, .6) 2px 2px 12px #c8d8e7;
 
 }
-
+/*
 label {
   font-family: "Hind", sans-serif;
   display: block;
-  color: #3c4b66;
+  /* color: #3c4b66;
   margin-bottom: 12px;
   background: linear-gradient(45deg, rgba(#6b7b8f, 1), #3c4b66);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
+} */
 
 .InputContainer {
   width: 100%;

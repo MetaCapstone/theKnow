@@ -5,11 +5,14 @@ import axios from "axios"
 import Search from "../Search/Search.jsx"
 import { useEffect } from "react";
 import LikedProducts from "../LikedProducts/LikedProducts.jsx"
-
+import UserRecommendations from "../UserRecommendations/UserRecommendations.jsx"
+import Recommendations from "../Recommendations/Recommendations.jsx"
 
 export default function ProductGrid(props) {
     const [data, setData] = useState([])
     const [show, setShow] = useState(false);
+    const [recommendShow, setRecommendShow] = useState(false)
+    const [recommendMLShow, setRecommendMLShow] = useState(false)
 
     async function viewProducts() {
         //props.setIsFetching(true)
@@ -26,20 +29,39 @@ export default function ProductGrid(props) {
 
     function showOrNot() {
         if (show) {
-            console.log("TRUE")
             return <LikedProducts setIsFetching={props.setIsFetching} isFetching={props.isFetching} user={props.user}/>;
         }
         else {
-            console.log("FALSE")
             return <></>;
         }
     }
 
+    function showOrNotRecommend() {
+        if (recommendShow) {
+            return <UserRecommendations likedProducts={data} user={props.user}/>;
+        } else {
+            return <></>
+        }
+    }
+
+    function showOrNotRecommendML() {
+        if (recommendMLShow) {
+            return <Recommendations user={props.user} setProducts={setData} likedProducts={data}/>;
+        } else {
+            return <></>
+        }
+    }
     return (
         <>
             <button onClick={() => {setShow(!show)}}>Liked Products</button>
+            <button onClick={() => {setRecommendShow(!recommendShow)}}>Recommendations other Users Liked</button>
+            <button onClick={() => {setRecommendMLShow(!recommendMLShow)}}> Recommendations </button>
             {showOrNot()}
+            {showOrNotRecommend()}
+            {showOrNotRecommendML()}
+            {/* <Recommendations user={props.user} setProducts={setData} likedProducts={data}/> */}
             <Search likedProducts={data} user={props.user} products={props.products} setIsFetching={props.setIsFetching} isFetching={props.isFetching}/>
+            {/* {scrapeImages()} */}
             <div className="product-grid">
 
                 {
