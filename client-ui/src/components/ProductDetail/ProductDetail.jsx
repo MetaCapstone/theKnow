@@ -5,6 +5,8 @@ import ReactLoading from "react-loading";
 import axios from "axios"
 import "./ProductDetail.css"
 import Loading from "../Loading/Loading.jsx"
+import HealthRating from "../HealthRating/HealthRating";
+import {Rating} from "@mui/material"
 
 export default function ProductDetail(props) {
     const params = useParams();
@@ -16,30 +18,38 @@ export default function ProductDetail(props) {
     // Get link for grabbing specific product info based on FDCId: const params = useParams();
 
    // getting data for the specific product that has been clicked on
-   let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+   let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib" //"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
     async function getData() {
       setIsFetched(true)
-      console.log("HERE")
         let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${params.productId}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
         { headers: {
           'Authorization': `api_key=${access_token}`,
         }
-        }).catch((err) => console.logs(err))
+        }).catch((err) => console.log(err))
         if (response) {
             setProductState(response.data)
-            console.log("loaded data")
         }
         setIsFetched(false)
     }
 
 
     React.useEffect(()=>{
-        getData()
-        async function getAvg() {
-          let resp = await getAvgRatings()
-          setRatings(resp)
+      async function responses() {
+        let response = await getRatingExists()
+          if (response.data == undefined) {
+            setProductState({description: response.title, brandOwner: response.company, value:response.healthRating})
+          } else {
+            getData()
+            async function getAvg() {
+              let resp = await getAvgRatings()
+              setRatings(resp)
+            }
+            getAvg()
+          }
         }
-        getAvg()
+
+      responses()
+
       },[])
 
 
@@ -59,6 +69,26 @@ export default function ProductDetail(props) {
       }
     }
 
+    async function getRatingExists() {
+      try {
+        const res = await axios.get(`http://localhost:3001/rating_add/${params.productId}`)
+
+        return res.data.posts
+      } catch (err) {
+          console.log(err)
+      }
+    }
+
+    async function addRating(health) {
+      const res = await axios.post(`http://localhost:3001/rating_add`, {
+              "productId" : parseInt(params.productId),
+              "healthRating" : health,
+              "title" : productState.description,
+              "company" : productState.brandOwner
+      })
+    }
+
+
     async function getAvgRatings() {
       try {
         const res = await axios.get(`http://localhost:3001/ratings/${params.productId}`)
@@ -67,6 +97,9 @@ export default function ProductDetail(props) {
           console.log(err)
       }
     }
+
+    // <Rating value={makeRatingProduct()} readOnly/>
+
     if (isFetched || productState == {}) {
       return <Loading/>
     } else {
@@ -77,6 +110,7 @@ export default function ProductDetail(props) {
           <div className="product-detail">
           <h1>{productState.description}</h1>
           <h5>{productState.brandOwner}</h5></div>}
+          {(productState.value == undefined) ? <HealthRating product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
           </div>
           <div className="rate">
             <input type="radio" id="star5" name="rate" value="5" />
