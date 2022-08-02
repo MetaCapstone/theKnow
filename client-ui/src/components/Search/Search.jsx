@@ -14,11 +14,11 @@ export default function Search(props) {
     const [open, setOpen] = useState(false)
     const [isFetched, setIsFetched] = useState(false)
     let url = "https://api.nal.usda.gov/fdc/v1/foods/search"
-    let access_token = "oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token ="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib" //"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
 
     async function searchAPI(query, sortOrder="asc", brandOwner=undefined) {
 
-        let params = url + `?query=${query.replace(" ", "%20")}&sortOrder=${sortOrder}`
+        let params = url + `?query=${query.replace(":", "%3A").replace(" ", "%20").replace(",", "%2C").replace("/", "%2F").replace("&", "%26").replace('"', "%22")}&sortOrder=${sortOrder}`
         if (brandOwner) {
             params += `&brandOwner=${brandOwner.replace(" ", "%20")}`
         }
@@ -46,16 +46,6 @@ export default function Search(props) {
         }
     }
 
-    // Close the dropdown menu if the user clicks outside of it
-    function close() {
-        var dropdowns = document.getElementById("myDropdown");
-
-        if (dropdowns) {
-            var i;
-            console.log(dropdowns.className)
-            dropdowns.className = "dropdown-content"
-        }
-    }
 
     function callFunction() {
         let keyword = document.getElementById("Keyword")?.value
@@ -69,16 +59,6 @@ export default function Search(props) {
             document.getElementById("brandOwner").value = ""
         } if (sortOrder) {
             document.getElementById("sortOrder").value = ""
-        }
-    }
-
-
-    function inputSearch() {
-        let val = document.getElementById('input');
-        if(val.innerHTML.includes('Sort Order')) {
-            val.innerHTML = <><input placeholder='Keyword' input='text' ref={inputEl} /><input placeholder='Sort Order' input='text' /></>
-        } else {
-            val.innerHTML = <input placeholder='Keyword' input='text' ref={inputEl} />
         }
     }
 
@@ -107,10 +87,12 @@ export default function Search(props) {
                     </div>
                 </div>
                 <div className="search-grid">
-                    {console.log("searched", searched)}
                     {searched.map((product, idx) => {
                         return <ProductCard user={props.user} key={idx} product={product} likedProducts={props.likedProducts}></ProductCard>
                     })}
+                    {/* {searched.map((product, idx) => {
+                        return
+                    })} */}
                 </div>
                 <button className={searched.length == 0 ? "hidden":""} onClick={()=> {setSearched([])}}>Clear</button>
 

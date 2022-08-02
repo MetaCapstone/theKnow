@@ -9,6 +9,9 @@ import {BrowserRouter, Route, Routes, Link} from "react-router-dom"
 import ProductGrid from '../ProductGrid/ProductGrid'
 import ProductDetail from '../ProductDetail/ProductDetail'
 import Loading from '../Loading/Loading'
+import UserProfile from '../UserProfile/UserProfile'
+import ProfileCard from '../ProfileCard/ProfileCard'
+import UserRatings from '../UserRatings/UserRatings'
 
 function App() {
   //const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("current_user_id") !== null)
@@ -59,10 +62,10 @@ function App() {
 
 
     // fetches data from api to display
-    let access_token="oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"//"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
     async function fetchData() {
         const response = await axios.get(url, {
-        }).catch((err) => {console.log(err)})
+        }).catch((err) => {console.log(err.request.response)})
         setSelectedProducts(response.data.foods)
     }
 
@@ -95,7 +98,10 @@ function App() {
         <Routes>
           <Route path="/users/login" element={<LoggedOutView user={user} isLoggedIn={isEmpty} handleLogin={handleLogin} setIsFetching={setIsFetching} isFetching={isFetching}/>} />
           <Route path="/" element={<ProductGrid user={user} products={products} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
-          <Route path="/product/:productId" element={<ProductDetail user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
+          <Route path="/product/:productId" element={<ProductDetail products={products} user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
+          <Route path="/userProfile" element={<UserProfile user={user}/>}/>
+          <Route path="/profileCard" element={<ProfileCard user={user}/>}/>
+          <Route path="/userRatings" element={<UserRatings user={user}/>}/>
         </Routes>
       </BrowserRouter>
     )
