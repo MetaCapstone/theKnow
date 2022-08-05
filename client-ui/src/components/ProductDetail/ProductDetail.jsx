@@ -14,6 +14,8 @@ export default function ProductDetail(props) {
     const [productState, setProductState] = useState({})
     const [ratings, setRatings] = useState([])
     const [isFetched, setIsFetched] = useState(false)
+    const [avg, setAvg] = useState(0.0)
+    const [count, setCount] = useState(0)
     let string = ""
 
     // Get link for grabbing specific product info based on FDCId: const params = useParams();
@@ -73,7 +75,6 @@ export default function ProductDetail(props) {
     async function getRatingExists() {
       try {
         const res = await axios.get(`http://localhost:3001/rating_add/${params.productId}`)
-
         return res.data.posts
       } catch (err) {
           console.log(err)
@@ -103,6 +104,9 @@ export default function ProductDetail(props) {
     async function getAvgRatings() {
       try {
         const res = await axios.get(`http://localhost:3001/ratings/${params.productId}`)
+        // console.log("RES!", res.data.average)
+        setAvg(res.data.average)
+        setCount(res.data.count)
         return res.data.posts
       } catch (err) {
           console.log(err)
@@ -115,17 +119,22 @@ export default function ProductDetail(props) {
       return <Loading/>
     } else {
       return (
-        <>
+        <div className="details">
         <div>
         {(productState===undefined) ? <h1>Not found!</h1> :
           <div className="product-detail">
           <h1>{productState.description}</h1>
           <h5>{productState.brandOwner}</h5></div>}
-          {(productState.value == undefined) ? <HealthRating user={props.user} product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
+          <div className="health">
+            {(productState.value == undefined) ? <HealthRating user={props.user} product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
+          </div>
+          </div>
+          <div className="review">
+            <h2 className="skills">Leave a Review!</h2>
           </div>
           <div className="rate">
             <input type="radio" id="star5" name="rate" value="5" />
-            <label htmlFor="star5" title="text">5 stars</label>
+            <label htmlFor="star5" title="Really Good!!">5 stars</label>
             <input type="radio" id="star4" name="rate" value="4" />
             <label htmlFor="star4" title="text">4 stars</label>
             <input type="radio" id="star3" name="rate" value="3" />
@@ -133,19 +142,19 @@ export default function ProductDetail(props) {
             <input type="radio" id="star2" name="rate" value="2" />
             <label htmlFor="star2" title="text">2 stars</label>
             <input type="radio" id="star1" name="rate" value="1" />
-            <label htmlFor="star1" title="text">1 star</label>
+            <label htmlFor="star1" title="Really Bad :(">1 star</label>
           </div>
           <div className="review">
-            <h2>Review!</h2>
-            <input id="review" type="text" />
+            <br></br>
+            <input id="review" className="submit" type="text" placeholder="Review here..."/>
           </div>
-          <div id="sub" className="submit">
-            <button onClick={() => {submitInfo(); document.getElementById("sub").innerHTML += "<h1>Thank you for your review!</h1>";
+          <div id="sub">
+            <button className="buttons center" onClick={() => {submitInfo(); document.getElementById("sub").innerHTML += "<h1>Thank you for your review!</h1>";
           document.getElementById("review").value = "";
           document.querySelector('input[name="rate"]:checked').checked = false;}}>Submit!</button>
           </div>
-          <Ratings ratings={ratings}/>
-        </>
+          <Ratings avg={avg} count={count} ratings={ratings}/>
+        </div>
       )
     }
   }

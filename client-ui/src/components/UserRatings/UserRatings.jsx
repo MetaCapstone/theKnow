@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { useEffect, useState } from "react";
+import {Rating} from "@mui/material"
+import "./UserRatings.css"
 
 export default function UserRatings({user}) {
 
@@ -34,19 +36,17 @@ export default function UserRatings({user}) {
 
     return (
         <>
-        <Link to="/profileCard">Go back to User Profile</Link>
-        <p>Here!</p>
+        <Link to="/userProfile"><button className="buttons">Go back to User Profile</button></Link>
         <div className="allRatings">
         {ratings.map((element, idx) => {
-          return <div key={idx}>
+          return <span className="user-info-holder"><div className="user-card ratings" key={idx}>
               {console.log(element)}
-              <button onClick={() => handleRemove(element.objectId)}> Delete</button>
-                {/* <div className={add ? "hidden" : ""}> */}
-                {/* <h2>{element.user}</h2> */}
-                    <p>{element.rating}</p>
-                    <p>{element.review}</p>
-                </div>
-            //   </div>
+              <button className="buttons" onClick={() => handleRemove(element.objectId)}>Delete?</button>
+                  <Rating value={element.rating} readOnly/>
+                  <h2 className="skill">{element.review}</h2>
+                  <p className="skill">Comment left on <Link to={`/product/${element.productId}`}>this product</Link></p>
+                    {/* <p>{element.rating}</p> */}
+                </div></span>
         })}
       </div>
         </>
