@@ -12,6 +12,8 @@ import Loading from '../Loading/Loading'
 import UserProfile from '../UserProfile/UserProfile'
 import ProfileCard from '../ProfileCard/ProfileCard'
 import UserRatings from '../UserRatings/UserRatings'
+import LoginForm from '../LoginForm/LoginForm'
+import RegisterForm from '../RegisterForm/RegisterForm'
 
 function App() {
   //const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("current_user_id") !== null)
@@ -96,11 +98,10 @@ function App() {
       <BrowserRouter>
       <NavBar setIsFetching={setIsFetching} isFetching={isFetching} user={user} handleLogout={handleLogout}/>
         <Routes>
-          <Route path="/users/login" element={<LoggedOutView user={user} isLoggedIn={isEmpty} handleLogin={handleLogin} setIsFetching={setIsFetching} isFetching={isFetching}/>} />
+          <Route path="/users/login" element={<LoginForm user={user} isLoggedIn={isEmpty} handleLogin={handleLogin} setIsFetching={setIsFetching} isFetching={isFetching}/>} />
           <Route path="/" element={<ProductGrid user={user} products={products} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
           <Route path="/product/:productId" element={<ProductDetail products={products} user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
           <Route path="/userProfile" element={<UserProfile user={user}/>}/>
-          <Route path="/profileCard" element={<ProfileCard user={user}/>}/>
           <Route path="/userRatings" element={<UserRatings user={user}/>}/>
         </Routes>
       </BrowserRouter>

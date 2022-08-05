@@ -121,7 +121,7 @@ export default function ProductDetail(props) {
           <div className="product-detail">
           <h1>{productState.description}</h1>
           <h5>{productState.brandOwner}</h5></div>}
-          {(productState.value == undefined) ? <HealthRating product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
+          {(productState.value == undefined) ? <HealthRating user={props.user} product={productState} getRatingExists={getRatingExists} addRating={addRating}/> : <Rating value={productState.value} readOnly/>}
           </div>
           <div className="rate">
             <input type="radio" id="star5" name="rate" value="5" />
@@ -149,4 +149,3 @@ export default function ProductDetail(props) {
       )
     }
   }
-

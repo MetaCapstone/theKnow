@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer, util
 import sys
-sentences = sys.argv[1:] #["plant based milk", "cereal", "plant based meat"]
+sentences = sys.argv[1:]
+#sentences = ["plant based milk", "cereal", "plant based meat"]
 
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 embeddings = model.encode(sentences, convert_to_tensor=True)
