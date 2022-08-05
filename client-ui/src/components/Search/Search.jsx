@@ -67,23 +67,18 @@ export default function Search(props) {
     } else {
         return (
             <>
-            <div className="container">
-                <div className="Icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#657789" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="feather feather-search"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-                </div>
+            <div className="container-search">
                     <div id="InputContainer" className="InputContainer">
                         <div id="input">
-                            <label>Search for a Product</label>
-                            <input id="Keyword" placeholder="Keyword" input="text" ref={inputEl} />
+                            <input id="Keyword" placeholder="Search by Keyword" input="text" ref={inputEl} />
+                            <button className="buttons search" onClick={() => callFunction()}><i class="fa-solid fa-magnifying-glass"></i> </button>
+                            <button className="buttons search" onClick={() => {setOpen(!open); myFunction()}}>{open ? "-" : "+"}</button>
                         </div>
                         <div id="myDropdown" className="dropdown-content">
                             {/* <button onClick={inputSearch()}>-</button> */}
-                            <button onClick={() => {document.getElementById("input").innerHTML += "<input id='brandOwner' placeholder='Brand Owner' input='text' />"}}>Brand Owner</button>
-                            <button onClick={() => {document.getElementById("input").innerHTML += "<input id='sortOrder' placeholder='asc or dec' input='text' />"}}>Sort Order</button>
+                            <button className="buttons search" onClick={() => {document.getElementById("input").innerHTML += "<input id='brandOwner' placeholder='Brand Owner' input='text' />"}}>Brand Owner</button>
+                            <button className="buttons search" onClick={() => {document.getElementById("input").innerHTML += "<input id='sortOrder' placeholder='asc or dec' input='text' />"}}>Sort Order</button>
                         </div>
-                        <button className="dropbtn" onClick={() => {setOpen(!open); myFunction()}}>{open ? "-" : "+"}</button>
-                        <button className="dropbtn" onClick={() => callFunction()}>search</button>
-
                     </div>
                 </div>
                 <div className="search-grid">
@@ -94,10 +89,7 @@ export default function Search(props) {
                         return
                     })} */}
                 </div>
-                <button className={searched.length == 0 ? "hidden":""} onClick={()=> {setSearched([])}}>Clear</button>
-
-            <h1 id="norm">Normal products: </h1>
-                {/* <ProductGrid user={props.user} products={searched} setIsFetching={props.setIsFetching} isFetching={props.isFetching}/> */}
+                <button className={searched.length == 0 ? "buttons clear hidden":"buttons clear"} onClick={()=> {setSearched([])}}>Clear</button> <br></br>
             </>
 
         )
