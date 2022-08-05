@@ -1,6 +1,8 @@
 import {useState} from "react"
+import "./Ratings.css"
+import { Rating } from '@mui/material';
 
-export default function Ratings({ratings}) {
+export default function Ratings({ratings, avg, count}) {
 
     const [add, setAdd] = useState(false)
     async function handleRemove() {
@@ -18,17 +20,19 @@ export default function Ratings({ratings}) {
     return (
 
         <div className="allRatings">
-        <h1>Ratings!</h1>
+          <br></br><br></br>
+        <h4 class="count">{count} Ratings</h4>
+        <h1>Ratings! <Rating value={avg} readOnly/></h1>
+        <br></br><br></br>
         {ratings.map((element, idx) => {
-          return <div key={idx}>
-              {/* <button onClick={handleRemove()}> Delete</button> */}
-                {/* <div className={add ? "hidden" : ""}> */}
-                <h2>{element.user}</h2>
-                    <p>{element.rating}</p>
-                    <p>{element.review}</p>
-                {/* </div> */}
-              </div>
+          return <span className="user-info-holder"><div className="user-card ratings" key={idx}>
+            <h2 className="skills">{element.user}</h2>
+                  <Rating value={element.rating} readOnly/>
+                  <h2 className="skill">{element.review}</h2>
+                </div></span>
         })}
       </div>
     )
+
+
 }

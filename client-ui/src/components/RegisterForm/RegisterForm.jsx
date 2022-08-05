@@ -2,8 +2,10 @@ import * as React from "react"
 import "./RegisterForm.css"
 import axios from "axios"
 import * as config from '../../config'
+import LoginForm from "../LoginForm/LoginForm"
+import { Link } from "react-router-dom"
 
-export default function RegisterForm({ handleLogin }) {
+export default function RegisterForm({ user, handleLogin, setIsFetching, isFetching }) {
     const username = React.createRef();
     const password = React.createRef();
 
@@ -34,10 +36,12 @@ export default function RegisterForm({ handleLogin }) {
             </label>
             <label>
                 <span>Password</span>
+                <input ref={username} placeholder="Username"></input>
                 <input type="password" ref={password} placeholder="Password"></input>
             </label>
             <button type="submit">Register</button>
+            <p>Already have an account?</p>
+            <Link to="/users/login">Log in!</Link>
         </form>
     )
 }
-

@@ -4,6 +4,7 @@ import * as React from "react"
 import { Link } from "react-router-dom"
 import { useState, useEffect} from "react";
 import "./ProductCard.css";
+import test from './testImage.jpeg'
 
 export default function ProductCard(props) {
     let display = "";
@@ -49,19 +50,14 @@ export default function ProductCard(props) {
 // lined heart: <i class="fa-solid fa-heart-circle-xmark"></i>
     return (
       <div className="product-card">
+        <Link className="testImg" to={"/product/" + props.product.fdcId}><img className="testImg" src={test}/></Link>
         <div className="product-name">
+        <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
+            <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>
           <p>{add ? "Liked!" : ""} </p>
            <h1>{(props.product.lowercaseDescription == undefined) ? props.product.description : props.product.lowercaseDescription}</h1>
-        </div>
-        <div className="media">
-            <Link to={"/product/" + props.product.fdcId}>
-              <p>img here</p>
-            </Link>
             {display}
-            <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
-            <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>
-            {/* <button onClick={handleRemove}>Remove from Liked</button> */}
         </div>
-      </div>
+        </div>
     )
   }

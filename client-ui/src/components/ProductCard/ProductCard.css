@@ -4,14 +4,57 @@
 .product-name p {
     color:red;
 }
+
+/* .product-card img {
+    width: 340px;
+    height: auto;
+    object-fit: contain;
+} */
+
+
+.testImg {
+    overflow: hidden;
+    position: relative;
+    background-color: red;
+    border-radius: 10px;
+    width: 100%;
+    height: 18rem; /* vary this to what you need */
+  }
+
+  .testImg img {
+    display: block;
+    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .fa-heart-circle-xmark {
+      color:red;
+      font-size:32px;
+      padding-top: 10px;
+  }
+  .fa-heart {
+      color:red;
+      font-size: 32px;
+      padding: 10px;
+      /* display:flex;
+      align-items: right; */
+
+  }
+
+  .product-name {
+      padding: 15px;
+  }
 .product-card{
     background-color: white;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
-    margin: 10px
+    /* margin-left: 10px;
+    margin-right: 10px; */
+    border-radius: 10px;
 }
 .button-style button {
     background-color: #04AA6D;
@@ -20,14 +63,14 @@
     cursor: pointer;
     border: transparent;
 }
-.media {
+/* .media {
     size: 100px;
     max-height: 100%;
     max-width: auto;
     padding-top: 10px;
-    /* width: 100%; */
-}
-.media button {
+    width: 100%;
+} */
+.product-name button {
     padding: 0;
     border: none;
     background: none;

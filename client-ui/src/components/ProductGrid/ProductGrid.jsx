@@ -46,6 +46,7 @@ export default function ProductGrid(props) {
 
     function showOrNotRecommendML() {
         if (recommendMLShow) {
+            console.log("SHOWING!")
             return <Recommendations user={props.user} setProducts={setData} likedProducts={data}/>;
         } else {
             return <></>
@@ -53,15 +54,16 @@ export default function ProductGrid(props) {
     }
     return (
         <>
-            <button onClick={() => {setShow(!show)}}>Liked Products</button>
-            <button onClick={() => {setRecommendShow(!recommendShow)}}>Recommendations other Users Liked</button>
-            <button onClick={() => {setRecommendMLShow(!recommendMLShow)}}> Recommendations </button>
+            <Search likedProducts={data} user={props.user} products={props.products} setIsFetching={props.setIsFetching} isFetching={props.isFetching}/>
+            <p>{props.user.user ? "" : "Want access to these buttons? Log in or make an account!"}</p>
+            <button disabled={`${props.user.user?"":"true"}`} className="buttons" onClick={() => {setShow(!show)}}>Liked Products</button>
+            <button disabled={`${props.user.user?"":"true"}`} className="buttons" onClick={() => {setRecommendShow(!recommendShow)}}>Recommendations other Users Liked</button>
+            <button disabled={`${props.user.user?"":"true"}`} className="buttons" onClick={() => {setRecommendMLShow(!recommendMLShow)}}> Recommendations </button>
             {showOrNot()}
             {showOrNotRecommend()}
             {showOrNotRecommendML()}
-            {/* <Recommendations user={props.user} setProducts={setData} likedProducts={data}/> */}
-            <Search likedProducts={data} user={props.user} products={props.products} setIsFetching={props.setIsFetching} isFetching={props.isFetching}/>
             {/* {scrapeImages()} */}
+
             <div className="product-grid">
 
                 {
