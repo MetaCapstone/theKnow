@@ -52,8 +52,7 @@ export default function LoggedOutView({user, isLoggedIn, handleLogin, isFetching
         <div>
             {showSelectedOption()}
             <p>{selected == "signUp" ? "Already have an account?" : "Don't have an account yet?"}</p>
-            <button onClick={() => setSelected(selected === "signUp" ? 'logIn':"signUp")}>{selected == "signUp" ? "Log in!" : "Sign up!"}</button>
+            <button className="buttons" onClick={() => setSelected(selected === "signUp" ? 'logIn':"signUp")}>{selected == "signUp" ? "Log in!" : "Sign up!"}</button>
         </div>
     )
 }
-
