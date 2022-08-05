@@ -42,21 +42,43 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
         }
     }
 
+
     return (
         <div id="NavBar">
-            {/* <button onClick={() => {selected === "show" ? setSelected("") : setSelected("show")}}>Liked Products</button>
-            {showSelectedOption()} */}
-            <>{isLoggedIn &&
-                <>
-                <a href="#" onClick={onClick}>Logout</a>
-                {/* <p>Welcome!</p> */}
-                <p>Welcome, {user.user.username}</p>
-                </>
-            }
-            <Link to="/"><i className="fa-solid fa-house"></i></Link>
-            <Link to="users/login">Log in!</Link></>
-            <Link to="/profileCard">User Profile</Link>
-            {/* <Link to="/userProfile">User Profile</Link> */}
+            <ul>
+                <li><Link to="/"><i className="fa-solid fa-house"></i></Link></li>
+                <li>{isLoggedIn && <p>Welcome, {user.user.username}</p>}</li>
+                <li className="right"><div className="dropdown">
+                    <i className="fa-solid fa-circle-user"></i>
+                            <div className="dropdown-content">
+                            {isLoggedIn &&
+                                <>
+                                    <p>Welcome, {user.user.username}</p>
+                                    <a href="#" onClick={onClick}>Logout</a>
+                                    <Link to="/userProfile">Your Profile</Link>
+                                    <Link to="/userRatings">Your Ratings</Link>
+                                </>
+                            }
+                                <Link to="users/login">Log in!</Link>
+
+                            </div>
+                        </div></li>
+            </ul>
         </div>
+
     )
+    // return (
+    //
+    //         {/* <button onClick={() => {selected === "show" ? setSelected("") : setSelected("show")}}>Liked Products</button>
+    //         {showSelectedOption()} */}
+
+    //         <div>
+
+    //         </div>
+
+
+
+    //     </div>
+
+    // )
 }
