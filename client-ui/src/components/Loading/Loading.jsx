@@ -1,7 +1,6 @@
 import "./Loading.css"
 import React from "react";
 import ReactLoading from "react-loading";
-//import "bootstrap/dist/css/bootstrap.css";
 
 export default class Loading extends React.Component {
     constructor(props){

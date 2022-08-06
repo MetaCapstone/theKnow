@@ -14,7 +14,6 @@ for i in range(1, len(cosine_scores)): # change this to only compare first sente
     pairs.append({'index': [0, i], 'score': cosine_scores[0][i]})
 
 #Sort scores in decreasing order
-#pairs = sorted(pairs, key=lambda x: x['score'], reverse=True)
 
 list_of_score = []
 for pair in pairs[0:10]:

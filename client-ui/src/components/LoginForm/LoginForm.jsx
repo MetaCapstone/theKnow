@@ -57,7 +57,6 @@ export default function LoginForm({user, handleLogin, isFetching, setIsFetching}
 
                     })
                 handleLogin(res.data)
-                console.log("HERE")
             } catch (err) {
                 console.log(err)
                 alert("Sign in failed: " + err.response.data.error);

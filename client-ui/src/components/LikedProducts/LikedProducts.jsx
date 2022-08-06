@@ -13,9 +13,7 @@ export default function LikedProducts({user, setIsFetching, isFetching}) {
     const [product, setProductState] = useState([])
 
     async function viewProducts() {
-        //setIsFetching(true)
         const res = await axios.get(`http://localhost:3001/products/${user.user.objectId}`)
-        //setIsFetching(false)
         setData(res.data.posts)
         res.data.posts.forEach(element => {
             getData(element)
@@ -26,7 +24,7 @@ export default function LikedProducts({user, setIsFetching, isFetching}) {
         setProductState([])
     }, [])
 
-    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"//"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"
     async function getData(token) {
         setIsFetched(true)
           let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${token}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,

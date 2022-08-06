@@ -8,7 +8,6 @@ export default function ProfileCard({user}) {
 
     async function getData(userId) {
         let resp = await axios.get(`http://localhost:3001/userProfile/${userId}`)
-        console.log("RESP!", resp.data.posts)
         setUserInfo(resp.data.posts)
     }
 

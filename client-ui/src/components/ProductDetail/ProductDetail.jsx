@@ -16,12 +16,9 @@ export default function ProductDetail(props) {
     const [isFetched, setIsFetched] = useState(false)
     const [avg, setAvg] = useState(0.0)
     const [count, setCount] = useState(0)
-    let string = ""
 
-    // Get link for grabbing specific product info based on FDCId: const params = useParams();
 
-   // getting data for the specific product that has been clicked on
-   let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib" //"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+   let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"
     async function getData() {
       setIsFetched(true)
         let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${params.productId}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
@@ -104,7 +101,6 @@ export default function ProductDetail(props) {
     async function getAvgRatings() {
       try {
         const res = await axios.get(`http://localhost:3001/ratings/${params.productId}`)
-        // console.log("RES!", res.data.average)
         setAvg(res.data.average)
         setCount(res.data.count)
         return res.data.posts
@@ -113,7 +109,6 @@ export default function ProductDetail(props) {
       }
     }
 
-    // <Rating value={makeRatingProduct()} readOnly/>
 
     if (isFetched || productState == {}) {
       return <Loading/>

@@ -11,7 +11,6 @@ export default function UserRatings({user}) {
 
     async function getRatingsForUser(userId) {
         let resp = await axios.get(`http://localhost:3001/userRatings/${userId}`)
-        console.log("RESPONSE", resp.data.posts)
         setRatings(resp.data.posts)
 
     }
@@ -40,12 +39,10 @@ export default function UserRatings({user}) {
         <div className="allRatings">
         {ratings.map((element, idx) => {
           return <span className="user-info-holder"><div className="user-card ratings" key={idx}>
-              {console.log(element)}
               <button className="buttons" onClick={() => handleRemove(element.objectId)}>Delete?</button>
                   <Rating value={element.rating} readOnly/>
                   <h2 className="skill">{element.review}</h2>
                   <p className="skill">Comment left on <Link to={`/product/${element.productId}`}>this product</Link></p>
-                    {/* <p>{element.rating}</p> */}
                 </div></span>
         })}
       </div>
