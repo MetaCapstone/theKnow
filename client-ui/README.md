@@ -4,7 +4,6 @@
 - fix global user / kill sessions
 - ratings/reviews - query database, add to database
 
-
 ## DATABASE:
 
 - create "liked" database (user id, product id)

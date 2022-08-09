@@ -1,97 +1,99 @@
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .buttons.search {
-    margin-top:0px;
-  }
-
-  input {
-    margin-left: 10px;
-  }
-
-  #input {
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
-  }
-
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd}
-
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;}
-
-
-  .search-grid {
-    margin-top:20px;
-  }
-
-
-@media screen and (max-width: 1000px){
-    #movie-grid{
-        grid-template-columns: 1fr 1fr;
-    }
-}
-@media screen and (max-width: 800px){
-    #movie-grid{
-        grid-template-columns: 1fr;
-    }
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-  #myDropdown {
-      padding: 50px;
-      margin: 50px;
-  }
+.buttons.search {
+  margin-top: 0px;
+}
 
-  .InputContainer {
-      display:flex;
-      margin-top:10px
-  }
+input {
+  margin-left: 10px;
+}
 
-  .dropbtn {
-    margin-left: 100px;
-  }
+#input {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+}
 
-  .buttons.search {
-    background-color: black;
-    color: white;
-    /* width:none */
-  }
-  .clear {
-    color: red;
-    border-color: red;
-    padding: 6px
-  }
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
 
-  .clear:hover {
-    background-color: red;
-    padding: 6px
-  }
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
 
-  .fa-magnifying-glass {
-    display: block;
-  }
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
 
-  #Keyword {
-    width: 70%;
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+  display: block;
+}
+
+.search-grid {
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  #movie-grid {
+    grid-template-columns: 1fr 1fr;
   }
+}
+@media screen and (max-width: 800px) {
+  #movie-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#myDropdown {
+  padding: 50px;
+  margin: 50px;
+}
+
+.InputContainer {
+  display: flex;
+  margin-top: 10px;
+}
+
+.dropbtn {
+  margin-left: 100px;
+}
+
+.buttons.search {
+  background-color: black;
+  color: white;
+  /* width:none */
+}
+.clear {
+  color: red;
+  border-color: red;
+  padding: 6px;
+}
+
+.clear:hover {
+  background-color: red;
+  padding: 6px;
+}
+
+.fa-magnifying-glass {
+  display: block;
+}
+
+#Keyword {
+  width: 70%;
+}

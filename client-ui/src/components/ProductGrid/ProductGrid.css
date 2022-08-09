@@ -1,23 +1,24 @@
-@import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Hind&display=swap");
 
 .product-grid {
-    display:grid;
-    grid-gap: 30px;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-top:20px;
-    margin-left: 20px;
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 .buttons {
   appearance: none;
   background-color: transparent;
-  border: 2px solid #1A1A1A;
+  border: 2px solid #1a1a1a;
   border-radius: 15px;
   box-sizing: border-box;
-  color: #3B3B3B;
+  color: #3b3b3b;
   cursor: pointer;
   display: inline-block;
-  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 600;
   line-height: normal;
@@ -28,7 +29,7 @@
   padding: 16px 24px;
   text-align: center;
   text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -42,7 +43,7 @@
 
 .buttons:hover {
   color: #fff;
-  background-color: #1A1A1A;
+  background-color: #1a1a1a;
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
 }
@@ -52,14 +53,14 @@
   transform: translateY(0);
 }
 
-@media screen and (max-width: 1000px){
-  #movie-grid{
-      grid-template-columns: 1fr 1fr;
+@media screen and (max-width: 1000px) {
+  #movie-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
-@media screen and (max-width: 800px){
-  #movie-grid{
-      grid-template-columns: 1fr;
+@media screen and (max-width: 800px) {
+  #movie-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -67,7 +68,8 @@
   --border-radius: 10px;
 }
 
-body, html {
+body,
+html {
   background: #e2e9f4;
   height: 100%;
 }
@@ -85,9 +87,7 @@ body, html {
   justify-content: center;
   border-radius: var(--border-radius);
   margin-right: 12px;
-  box-shadow:
-    -2px -2px 6px rgba(#fff, .6) 2px 2px 12px #c8d8e7;
-
+  box-shadow: -2px -2px 6px rgba(#fff, 0.6) 2px 2px 12px #c8d8e7;
 }
 
 label {
@@ -99,30 +99,29 @@ label {
   -webkit-background-clip: text;
 }
 
-
 input {
   background-color: #e3edf7;
   padding: 16px 32px;
   border: none;
   display: block;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-weight: 600;
   color: black;
   -webkit-appearance: none;
   transition: all 240ms ease-out;
   width: 100%;
-
-};
+}
 
 .hidden {
-    display:none
+  display: none;
 }
 
 #norm {
-  padding-top: 100px
+  padding-top: 100px;
 }
 
-body, html {
+body,
+html {
   background: #e2e9f4;
   height: 100%;
 }
@@ -130,11 +129,13 @@ body, html {
 .Card {
   padding: 1px;
   border-radius: var(--border-radius);
-  background: linear-gradient(-67deg, rgba(#c8d8e7, .7), rgba(255,255,255,.8));
+  background: linear-gradient(
+    -67deg,
+    rgba(#c8d8e7, 0.7),
+    rgba(255, 255, 255, 0.8)
+  );
   overflow: hidden;
-  box-shadow:
-    -2px -2px 6px rgba(#fff, .6),
-    2px 2px 12px #c8d8e7;
+  box-shadow: -2px -2px 6px rgba(#fff, 0.6), 2px 2px 12px #c8d8e7;
   width: 380px;
 }
 
@@ -156,9 +157,7 @@ body, html {
   justify-content: center;
   border-radius: var(--border-radius);
   margin-right: 12px;
-  box-shadow:
-    -2px -2px 6px rgba(#fff, .6) 2px 2px 12px #c8d8e7;
-
+  box-shadow: -2px -2px 6px rgba(#fff, 0.6) 2px 2px 12px #c8d8e7;
 }
 
 input {
@@ -166,12 +165,11 @@ input {
   padding: 16px 32px;
   border: none;
   display: block;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-weight: 600;
   color: #a9b8c9;
 
   -webkit-appearance: none;
   transition: all 240ms ease-out;
   width: 100%;
-
-};
+}
