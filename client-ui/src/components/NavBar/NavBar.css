@@ -1,11 +1,11 @@
 #NavBar {
   padding: 50px;
-  background: #FF416C;
-  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background: #ff416c;
+  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
 }
 .right {
-  float:right
+  float: right;
 }
 .dropdown {
   position: relative;
@@ -30,26 +30,26 @@ li {
 }
 
 .fa-circle-user {
-    color: white;
-    font-size: 32px;
+  color: white;
+  font-size: 32px;
 }
 
 .fa-house {
-    font-size: 28px;
-    color: white;
+  font-size: 28px;
+  color: white;
 }
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    z-index: 1;
-  }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-    right:20%
-  }
+.dropdown:hover .dropdown-content {
+  display: block;
+  right: 20%;
+}

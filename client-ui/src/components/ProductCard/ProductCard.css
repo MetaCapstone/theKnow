@@ -1,60 +1,58 @@
 .hidden {
-    display:none
+  display: none;
 }
 .product-name p {
-    color:red;
+  color: red;
 }
-
 
 .testImg {
-    overflow: hidden;
-    position: relative;
-    background-color: red;
-    border-radius: 10px;
-    width: 100%;
-    height: 18rem; /* vary this to what you need */
-  }
+  overflow: hidden;
+  position: relative;
+  background-color: red;
+  border-radius: 10px;
+  width: 100%;
+  height: 18rem; /* vary this to what you need */
+}
 
-  .testImg img {
-    display: block;
-    max-width: 100%;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-  .fa-heart-circle-xmark {
-      color:red;
-      font-size:32px;
-      padding-top: 10px;
-  }
-  .fa-heart {
-      color:red;
-      font-size: 32px;
-      padding: 10px;
+.testImg img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.fa-heart-circle-xmark {
+  color: red;
+  font-size: 32px;
+  padding-top: 10px;
+}
+.fa-heart {
+  color: red;
+  font-size: 32px;
+  padding: 10px;
+}
 
-  }
-
-  .product-name {
-      padding: 15px;
-  }
-.product-card{
-    background-color: white;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 10px;
+.product-name {
+  padding: 15px;
+}
+.product-card {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
 }
 .button-style button {
-    background-color: #04AA6D;
-    color: #182520;
-    padding: 10px 24px;
-    cursor: pointer;
-    border: transparent;
+  background-color: #04aa6d;
+  color: #182520;
+  padding: 10px 24px;
+  cursor: pointer;
+  border: transparent;
 }
 .product-name button {
-    padding: 0;
-    border: none;
-    background: none;
+  padding: 0;
+  border: none;
+  background: none;
 }
