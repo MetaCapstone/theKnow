@@ -14,6 +14,7 @@ import ProfileCard from '../ProfileCard/ProfileCard'
 import UserRatings from '../UserRatings/UserRatings'
 import LoginForm from '../LoginForm/LoginForm'
 import RegisterForm from '../RegisterForm/RegisterForm'
+import ImageScraping from '../ImageScraping/ImageScraping'
 
 function App() {
   const [user, setUser] = useState({})
@@ -87,6 +88,7 @@ function App() {
           <Route path="/product/:productId" element={<ProductDetail products={products} user={user} setIsFetching={setIsFetching} isFetching={isFetching}/>}/>
           <Route path="/userProfile" element={<UserProfile user={user}/>}/>
           <Route path="/userRatings" element={<UserRatings user={user}/>}/>
+          <Route path="/image" element={<ImageScraping/>}/>
         </Routes>
       </BrowserRouter>
     )

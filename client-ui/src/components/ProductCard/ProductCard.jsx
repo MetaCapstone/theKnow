@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect} from "react";
 import "./ProductCard.css";
 import test from './testImage.jpeg'
+import ImageScraping from "../ImageScraping/ImageScraping";
 
 export default function ProductCard(props) {
     let display = "";
@@ -44,7 +45,7 @@ export default function ProductCard(props) {
 
     return (
       <div className="product-card">
-        <Link className="testImg" to={"/product/" + props.product.fdcId}><img className="testImg" src={test}/></Link>
+        <Link className="testImg" to={"/product/" + props.product.fdcId}><ImageScraping productId={props.product.fdcId} productCategory={props.product.foodCategory}/></Link>
         <div className="product-name">
         <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
             <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>

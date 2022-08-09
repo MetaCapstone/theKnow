@@ -100,6 +100,47 @@ app.post('/add_products', async (req, res) => {
   }
 })
 
+app.post('/add_image', async (req, res) => {
+  try {
+    const Images = Parse.Object.extend("Images")
+    const image = new Images();
+
+    image.set({
+      "productId": req.body.productId,
+      "imageRegular": req.body.imageRegular,
+      "imageRaw": req.body.imageRaw
+    })
+
+    image.save()
+
+    res.send("success")
+  } catch (err) {
+    res.status(400)
+    res.send({"error" : error})
+  }
+})
+
+app.get('/get_images/:productId', async (req, res) => {
+  try {
+    const {productId} = req.params
+    function postsMatching() {
+      var Images = Parse.Object.extend("Images");
+      var query = new Parse.Query(Images);
+      query.equalTo("productId", parseInt(productId));
+      return query.find();
+    }
+    const response = await postsMatching()
+    if (response.length == 0) {
+      res.send({posts: {"data" : "none"}})
+    } else {
+      res.send({posts: {"imageRegular": response[0].attributes.imageRegular, "imageRaw" :response[0].attributes.imageRaw}})
+    }
+  } catch (err) {
+      res.status(400)
+      res.send({"error": error})
+  }
+})
+
 app.post('/remove_products', async (req, res) => {
   try {
     function postsMatching() {
