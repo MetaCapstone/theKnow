@@ -5,35 +5,6 @@ import "./LoggedOutView.css"
 import { useState } from "react"
 
 
-
-// const AboutUs = () => {
-//     const [selected, setSelected] = useState('');
-//   const showSelectedOption = () => {
-//     switch(selected) {
-//       case 'details':
-//         return  <PersonalDetails />;
-//       case 'bio':
-//         return  <ProfileBio />;
-//       case 'qualif':
-//         return  <ProfileQualifications />;
-//       default:
-//         return '';
-
-//     }
-//   }
-
-//   return (
-//      <Button onClick={() => setSelected('details')}>Personal Details</Button>
-//      <Button onClick={() => setSelected('bio')}>Bio</Button>
-//      <Button onClick={() => setSelected('qualif')}>Qualifications</Button>
-
-
-//      Container className={classes.container}>
-//         {showSelectedOption()}
-//      </Container>
-//     );
-//   };
-
 export default function LoggedOutView({user, isLoggedIn, handleLogin, isFetching, setIsFetching}) {
 
     const [selected, setSelected] = useState('logIn');

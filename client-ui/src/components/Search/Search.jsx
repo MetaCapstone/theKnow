@@ -1,6 +1,3 @@
-// https://api.nal.usda.gov/fdc/v1/foods/search?query=cheddar%20cheese&dataType=Branded&pageNumber=2&sortOrder=asc&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20
-//%20 for space between queries
-// &brandOwner=Kar%20Nut%20Products%20Company for brands
 import React, { useState, useRef } from "react"
 import axios from "axios"
 import "./Search.css"
@@ -14,7 +11,7 @@ export default function Search(props) {
     const [open, setOpen] = useState(false)
     const [isFetched, setIsFetched] = useState(false)
     let url = "https://api.nal.usda.gov/fdc/v1/foods/search"
-    let access_token ="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib" //"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token ="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"
 
     async function searchAPI(query, sortOrder="asc", brandOwner=undefined) {
 
@@ -75,7 +72,6 @@ export default function Search(props) {
                             <button className="buttons search" onClick={() => {setOpen(!open); myFunction()}}>{open ? "-" : "+"}</button>
                         </div>
                         <div id="myDropdown" className="dropdown-content">
-                            {/* <button onClick={inputSearch()}>-</button> */}
                             <button className="buttons search" onClick={() => {document.getElementById("input").innerHTML += "<input id='brandOwner' placeholder='Brand Owner' input='text' />"}}>Brand Owner</button>
                             <button className="buttons search" onClick={() => {document.getElementById("input").innerHTML += "<input id='sortOrder' placeholder='asc or dec' input='text' />"}}>Sort Order</button>
                         </div>
@@ -85,9 +81,6 @@ export default function Search(props) {
                     {searched.map((product, idx) => {
                         return <ProductCard user={props.user} key={idx} product={product} likedProducts={props.likedProducts}></ProductCard>
                     })}
-                    {/* {searched.map((product, idx) => {
-                        return
-                    })} */}
                 </div>
                 <button className={searched.length == 0 ? "buttons clear hidden":"buttons clear"} onClick={()=> {setSearched([])}}>Clear</button> <br></br>
             </>

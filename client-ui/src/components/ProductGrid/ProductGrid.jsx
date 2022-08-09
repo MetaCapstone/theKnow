@@ -15,12 +15,10 @@ export default function ProductGrid(props) {
     const [recommendMLShow, setRecommendMLShow] = useState(false)
 
     async function viewProducts() {
-        //props.setIsFetching(true)
         if (props.user.user) {
             const res = await axios.get(`http://localhost:3001/products/${props.user.user.objectId}`)
             setData(res.data.posts)
         }
-        //props.setIsFetching(false)
     }
 
     useEffect(() => {
@@ -46,7 +44,6 @@ export default function ProductGrid(props) {
 
     function showOrNotRecommendML() {
         if (recommendMLShow) {
-            console.log("SHOWING!")
             return <Recommendations user={props.user} setProducts={setData} likedProducts={data}/>;
         } else {
             return <></>
@@ -62,14 +59,12 @@ export default function ProductGrid(props) {
             {showOrNot()}
             {showOrNotRecommend()}
             {showOrNotRecommendML()}
-            {/* {scrapeImages()} */}
 
             <div className="product-grid">
 
                 {
                     props.products.map((product, idx) => {
                         return <ProductCard user={props.user} key={idx} product={product} setProducts={setData} likedProducts={data}></ProductCard>
-                        // return <p> {product.name_translations.en}</p>
                     })}
             </div>
         </>

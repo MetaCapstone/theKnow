@@ -21,11 +21,9 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
     }
     const onClick = async (event) => {
         event.preventDefault()
-        //setIsFetching(true)
         const res = await axios.post(`http://localhost:3001/logout`, {
             "sessionToken" : user.sessionToken
         })
-        //setIsFetching(false)
         setIsLoggedIn(false)
         handleLogout()
     }
@@ -67,18 +65,4 @@ export default function NavBar({ handleLogout, user, setIsFetching, isFetching})
         </div>
 
     )
-    // return (
-    //
-    //         {/* <button onClick={() => {selected === "show" ? setSelected("") : setSelected("show")}}>Liked Products</button>
-    //         {showSelectedOption()} */}
-
-    //         <div>
-
-    //         </div>
-
-
-
-    //     </div>
-
-    // )
 }

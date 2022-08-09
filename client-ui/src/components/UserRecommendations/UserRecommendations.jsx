@@ -25,7 +25,7 @@ export default function UserRecommendations({user, likedProducts}) {
         })
     }
 
-    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"//"oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB"
+    let access_token="bdJjin59zDuhXSARWy1Gu6M642AeZa2J9VIdqwib"
     async function getData(token) {
           let response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${token}?&api_key=oDWPyC6zdMmMtm1ZtHe7prk8I18ZaFR5ShQ7QpYB&pageSize=20`,
           { headers: {

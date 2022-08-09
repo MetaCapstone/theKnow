@@ -5,13 +5,13 @@ import { Link } from "react-router-dom"
 import { useState, useEffect} from "react";
 import "./ProductCard.css";
 import test from './testImage.jpeg'
+import ImageScraping from "../ImageScraping/ImageScraping";
 
 export default function ProductCard(props) {
     let display = "";
     let productsLiked = new Set(props.likedProducts)
     let val = productsLiked.has(parseInt(props.product.fdcId))
     const [add, setAdd] = useState(val)
-    //let add = val
 
     useEffect(() => {
       setAdd(productsLiked.has(parseInt(props.product.fdcId)))
@@ -27,9 +27,7 @@ export default function ProductCard(props) {
       } catch (err) {
           alert("Failed to add to liked. Make sure you are logged in! ", err);
       }
-      //await props.setProducts()
       setAdd(prev => !prev)
-      // add = !add
     }
 
     async function handleRemove() {
@@ -41,16 +39,13 @@ export default function ProductCard(props) {
       } catch (err) {
         alert("Failed to delete from liked. Make sure you are logged in! ", err);
       }
-      //await props.setProducts()
       setAdd(prev => !prev)
       props.setProducts(props.likedProducts)
     }
 
-// solid heart: <i class="fa-solid fa-heart"></i>
-// lined heart: <i class="fa-solid fa-heart-circle-xmark"></i>
     return (
       <div className="product-card">
-        <Link className="testImg" to={"/product/" + props.product.fdcId}><img className="testImg" src={test}/></Link>
+        <Link className="testImg" to={"/product/" + props.product.fdcId}><ImageScraping productId={props.product.fdcId} productCategory={props.product.foodCategory}/></Link>
         <div className="product-name">
         <button onClick={() => (add ? handleRemove() : handleAdd())}>{add ?
             <i className="fa-solid fa-heart-circle-xmark"></i> : <i className="fa-solid fa-heart"></i>}</button>

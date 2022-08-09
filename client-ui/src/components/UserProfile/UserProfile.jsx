@@ -1,8 +1,4 @@
-// capabilities:
-//    profile (height, weight, etc.) <- should be able to update it, not add it, etc.
-//    list of all of their ratings, ability to delete them
 import axios from "axios";
-import {Link} from "react-router-dom"
 import "./UserProfile.css"
 import {useState, useEffect} from "react"
 
@@ -18,7 +14,6 @@ export default function UserProfile({user}) {
         let weight = document.getElementById("weight").value;
         let gender = document.getElementById("gender").value;
 
-        console.log("HERE")
 
         const res = await axios.post(`http://localhost:3001/userProfile`, {
           "userId" : user.user.objectId,
@@ -29,7 +24,6 @@ export default function UserProfile({user}) {
           "gender" : gender
         })
 
-        console.log("DONE!")
         setRefetch(!refetch)
     }
 
@@ -56,7 +50,6 @@ export default function UserProfile({user}) {
 
     async function getData(userId) {
         let resp = await axios.get(`http://localhost:3001/userProfile/${userId}`)
-        console.log("RESP!", resp.data.posts)
         setUserInfo(resp.data.posts)
     }
 
@@ -127,46 +120,6 @@ export default function UserProfile({user}) {
             </div>
         </div>
         </div>
-)
-
-
-        // return(
-        //     <div className="userProfile">
-        //         <h1>Profile Information:</h1><br/>
-
-        //         <label>Name</label>
-
-        //         <input id="firstName" type="text" placeholder="first name"/><br/>
-        //         <input id="lastName" type="text" placeholder="last name"/>
-
-        //         <label>Basic Health Information</label>
-
-        //                 <form action="#">
-        //                     <label>Height</label>
-        //                         <label>Feet</label>
-        //                         <select id="height">
-        //                             <option value={3}> less than 3</option>
-        //                             <option value={3}>3'</option>
-        //                             <option value={4}>4'</option>
-        //                             <option value={5}>5'</option>
-        //                             <option value={6}>6'</option>
-        //                             <option value={7}>more than 6'</option>
-        //                         </select>
-
-        //                         <label>Weight</label>
-
-        //                         <input id="weight" type="text" placeholder="lbs"/><br/>
-
-        //                         <label> Sex </label>
-        //                         <select id="gender">
-        //                             <option value="M">Male</option>
-        //                             <option value="F">Female</option>
-        //                         </select>
-        //                 </form>
-
-        //         <button onClick={() => submitForm()}>Submit</button>
-        //         <Link to="/userRatings">Go to your ratings</Link>
-        //     </div>
-        // )
-        }
+        )
     }
+}

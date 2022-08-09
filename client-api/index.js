@@ -5,7 +5,6 @@ const Parse = require('parse/node')
 const { spawn }=require('child_process')
 const events = require('events');
 const myEmitter = new events.EventEmitter();
-//var _ = require('lodash');
 var _ = require('underscore');
 const {PARSE_APP_ID, PARSE_JAVASCRIPT_KEY} = require('./config')
 const { disconnect } = require('process')
@@ -26,11 +25,9 @@ Parse.serverURL = "https://parseapi.back4app.com"
 
 app.post('/register', async (req, res) => {
   let user = new Parse.User(req.body)
-  console.log(req.body)
   try {
       await user.signUp()
       res.status(201)
-      console.log("USER", user)
       res.send({"user" : user})
   } catch (error) {
       res.status(400)
@@ -41,7 +38,6 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     const user = await Parse.User.logIn(req.body.username, req.body.password)
-    console.log("in login", user)
     res.send({"user" : user, "sessionToken" : user.getSessionToken()})
   } catch (error) {
     res.status(400)
@@ -56,7 +52,6 @@ app.post('/logout', async (req, res) => {
 
   query.first( { useMasterKey : true}).then(function (user) {
     if (user) {
-      console.log(user)
 
       user
       .destroy(
@@ -70,18 +65,10 @@ app.post('/logout', async (req, res) => {
         return null
       })
     } else {
-      console.log("Nothing here")
-      //res.send({ loginMessage: error.message, RegisterMessage: '', typeStatus: "danger",  infoUser: user})
       res.send({})
     }
   })
 })
-
-// axios.get(...../products, {
-//  id = dfnekg
-// })
-
-// conquered difficult questions - message
 
 app.post('/add_products', async (req, res) => {
   try {
@@ -93,7 +80,6 @@ app.post('/add_products', async (req, res) => {
       return query.count();
     }
     const response =  await postsMatching()
-    console.log("RESPONSE:", response)
     if (response === 0) {
 
       const Likes = Parse.Object.extend("Likes")
@@ -106,12 +92,52 @@ app.post('/add_products', async (req, res) => {
 
       likes.save()
   } if (response > 0) {
-    console.log("already added!")
   }
   res.send("success")
   } catch (error) {
     res.status(400)
     res.send({"error" : error })
+  }
+})
+
+app.post('/add_image', async (req, res) => {
+  try {
+    const Images = Parse.Object.extend("Images")
+    const image = new Images();
+
+    image.set({
+      "productId": req.body.productId,
+      "imageRegular": req.body.imageRegular,
+      "imageRaw": req.body.imageRaw
+    })
+
+    image.save()
+
+    res.send("success")
+  } catch (err) {
+    res.status(400)
+    res.send({"error" : error})
+  }
+})
+
+app.get('/get_images/:productId', async (req, res) => {
+  try {
+    const {productId} = req.params
+    function postsMatching() {
+      var Images = Parse.Object.extend("Images");
+      var query = new Parse.Query(Images);
+      query.equalTo("productId", parseInt(productId));
+      return query.find();
+    }
+    const response = await postsMatching()
+    if (response.length == 0) {
+      res.send({posts: {"data" : "none"}})
+    } else {
+      res.send({posts: {"imageRegular": response[0].attributes.imageRegular, "imageRaw" :response[0].attributes.imageRaw}})
+    }
+  } catch (err) {
+      res.status(400)
+      res.send({"error": error})
   }
 })
 
@@ -124,7 +150,6 @@ app.post('/remove_products', async (req, res) => {
       return query.find();
     }
     postsMatching().then(function(posts) {
-      console.log("deleting " + JSON.stringify(posts));
       Parse.Object.destroyAll(posts);
     }, function(error) {
       console.log("error " + JSON.stringify(error));
@@ -146,12 +171,10 @@ app.post('/rating_add', async (req, res) => {
       return query.count();
     }
     const response =  await postsMatching()
-    console.log("RESPONSE:", response)
     if (response === 0) {
 
       const Product = Parse.Object.extend("Product")
       const product = new Product();
-      console.log(req.body.productId)
       product.set({
         "productId": req.body.productId,
         "healthRating" : req.body.healthRating,
@@ -226,10 +249,7 @@ app.get('/userRatings/:userId', async (req, res) => {
     product_ids = response.map((element) => {
       return element.attributes.productId
     })
-    console.log("HERE")
     const reviews = response.map((element) => {
-      //console.log(element.attributes)
-      console.log("OBJ ID", element)
       return {
         "rating" : element.attributes.Rating,
         "review" : element.attributes.Review,
@@ -245,9 +265,6 @@ app.get('/userRatings/:userId', async (req, res) => {
   }
 })
 
-
-//app.get necessary as well
-
 app.get('/products/:userId', async (req, res) => {
   try {
     const {userId} = req.params
@@ -261,8 +278,6 @@ app.get('/products/:userId', async (req, res) => {
     product_ids = response.map((element) => {
       return element.attributes.productId
   })
-    console.log(product_ids)
-    console.log(response)
     res.send({"posts" : product_ids})
 
   } catch (error) {
@@ -280,7 +295,6 @@ app.post('/categories', async (req, res) => {
       return query.count();
     }
     const response =  await postsMatching()
-    console.log("RESPONSE:", response)
     if (response === 0) {
 
       const Category = Parse.Object.extend("Category")
@@ -307,7 +321,6 @@ app.get('/categories', async(req, res) => {
 })
 
 app.get('/reccomendations/MLBased/:userId', async (req, res) => {
-  //try {
     let total = []
     const {userId} = req.params
     function postsMatching() {
@@ -342,14 +355,12 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
 
       let resp = await productsMatching(element.attributes.productId)
       if (resp.length != 0) {
-        let actual_category = resp[0].attributes.title //"plant based milk" // change based on based on product
+        let actual_category = resp[0].attributes.title
 
         let options = ["similarity_model.py"]
         options.push(actual_category)
         options = options.concat(categorys)
-        // ^^ above this works
 
-        //let options = ['similarity_model.py', "plant based milk", "cereal", "plant based meat"]
         const child_python= spawn('python3', options);
         array = []
 
@@ -377,10 +388,8 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
           keys.forEach((element) => {
             array.push(element)
           })
-          //console.log("ARRAY", array)
           total.push(array)
 
-          console.log("HERE")
           child_python.stderr.on('data',(data)=>{
             console.log(`stderr : ${data}`);
           })
@@ -393,7 +402,7 @@ app.get('/reccomendations/MLBased/:userId', async (req, res) => {
 
       }
 
-    })//)
+    })
     let i = 0
     myEmitter.on('firstSpawn-finished', () => {
       i = i + 1
@@ -427,7 +436,6 @@ app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
     // for each user in this list, find the posts matching
     product_ids = await Promise.all(response.map(async (element) => {
       let resp = await productsMatching(element.attributes.productId)
-      console.log("RESPONSE", resp)
       let res = await Promise.all(resp.map(async (el) => {
         let responses = await postsMatching(el.attributes.userId)
         let final = responses.map((element) => {
@@ -437,7 +445,6 @@ app.get('/recommendations/UsertoUser/:userId', async (req, res) => {
       }))
       return res
     }))
-    console.log("product_ids", product_ids)
     res.send({"posts" : product_ids})
 
 
@@ -505,7 +512,6 @@ app.post('/remove_rating', async (req, res) => {
   function postsMatching() {
     const Ratings = Parse.Object.extend("Ratings")
     const query = new Parse.Query(Ratings);
-    console.log("OBJECT ID", req.body.objectId);
     query.equalTo("objectId", req.body.objectId);
     return query.first();
   }
@@ -520,7 +526,6 @@ app.post('/ratings', (req, res) => {
   try {
     var Ratings = Parse.Object.extend("Ratings");
     const ratings = new Ratings();
-    console.log(ratings)
     ratings.set({
       "Review" : req.body.reviews,
       "Rating" : req.body.rating,
@@ -529,7 +534,6 @@ app.post('/ratings', (req, res) => {
     })
 
     ratings.save()
-    console.log("SECOND")
 } catch (error) {
   res.status(400)
   res.send({"error" : error })
@@ -539,7 +543,6 @@ app.post('/ratings', (req, res) => {
 app.get('/ratings/:productId', async (req, res) => {
   try {
     const {productId} = req.params
-    console.log(productId)
     function postsMatching() {
       var Ratings = Parse.Object.extend("Ratings");
       var query = new Parse.Query(Ratings);
@@ -566,7 +569,6 @@ app.get('/ratings/:productId', async (req, res) => {
     const reviews = await Promise.all(response.map(async (element) => {
       avg += element.attributes.Rating
       let resp = await userName(element.attributes.UserId)
-      //console.log(element.attributes)
       return {"user" : resp[0].attributes.username,
       "rating" : element.attributes.Rating,
       "review" : element.attributes.Review
@@ -593,12 +595,8 @@ app.get('/healthRatings/:productId/:userId', async (req, res) => {
     let weight = [1 , 1, .25, .25, .5, 1, 1]
     let total_weight = 5
 
-    // access key for image API: OJ1_O3gxEMgtAVf2L-KeKlKbXNVBdQrHe8zWKQvvsYc
-    // secret key: yu9ybl9AkXdGFkrYK8ZWtgJWPQ4LpAgMa90PBtAUKL8
-
     async function getProfileData() {
         let resp = await axios.get(`http://localhost:3001/userProfile/${userId}`)
-        console.log("RESP!", resp.data.posts)
         return resp.data.posts
     }
 
@@ -680,7 +678,6 @@ app.get('/healthRatings/:productId/:userId', async (req, res) => {
       let rating_avg = 0;
       let rating = 0;
       nutrients.map((element, idx) => {
-          //console.log("NUTRIENT: ", columns[idx], " Dietary info: ", dietary_information_user[columns[idx]])
           if (better[idx] === "+") {
               let high_val = 0
               if (userInfo.gender == "M") {
@@ -736,7 +733,6 @@ app.get('/healthRatings/:productId/:userId', async (req, res) => {
 
       rating_avg = Math.round(rating_avg / total_weight)
       res.send({"posts": rating_avg})
-      console.log("RATING CREATED")
 
         }
     }
@@ -813,8 +809,6 @@ app.get('/healthRatings/:productId/:userId', async (req, res) => {
 
     rating_avg = Math.round(rating_avg / total_weight)
 
-    //await addRating(rating_avg)
-    //setRating(rating_avg)
     res.send({"posts": rating_avg})
   }
 })

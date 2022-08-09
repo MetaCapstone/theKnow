@@ -1,40 +1,22 @@
 #NavBar {
-  /* background-color: #515352; */
   padding: 50px;
   background: #FF416C;
   background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
   background: linear-gradient(to right, #FF4B2B, #FF416C);
-
 }
-
 .right {
   float:right
 }
-/* #NavBar span {
-  font-weight: bold;
-} */
-
-/* #NavBar a {
-  /* float: right; */
-  /* padding: 20px;
-  color: rgb(254, 254, 254);
-} */
-
-
-
 .dropdown {
   position: relative;
   display: inline;
   left: 95%;
 }
-
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  /* overflow: auto; */
 }
-
 li:last-child {
   border-right: none;
 }
